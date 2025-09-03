@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+    <style>
+        table, th, td {
+            border: 1px solid black; 
+            border-collapse: collapse;
+            text-align: center;
+            padding: 5px;
+        }
+        code {
+            font-size: larger;
+        }
+        #table-wrapper {
+            position: relative;
+        }
+        #table-scroll {
+            overflow:auto;
+        }
+    </style>
+    <head>
+        <title>NTATV - Windows NT on the Original Apple TV</title>
+        <p>
+            <a href="index.html">Go back to main page</a>
+        </p>
+        <hr>
+    </head>
+    <body>
+        <h1>
+            NTATV - Windows NT on the Original Apple TV
+        </h1>
+        <p>
+            <img src="img/NTATV_Logo_256.png" alt="NTATV Logo" width="160">
+        </p>
+        <p>
+            The NTATV Project: Bringing Windows NT (Windows 2000, Windows XP, Windows 2003, ReactOS) to the original Apple TV.
+        </p>
+        <h3>
+            Want to run Windows on the Apple TV? Read the <a href="ntatv/guide.html">Guide</a>!
+            <br />
+            Want to learn how I did this? Read the <a href="ntatv/write_up.html">Write-Up</a>!
+        </h3>
+        <p>Contents:</p>
+        <ol>
+            <li><a href="#status">Status</a></li>
+            <li><a href="#never-work">Things that will Likely Never Work</a></li>
+            <li><a href="#known-issues">Known Issues</a></li>
+            <li><a href="#changelog">Changelog</a></li>
+        </ol>
+        <hr>
+        <a id="status"><h2>Status</h2></a>
+        <p>
+            Do note that I have not done extensive testing on anything except XP. Hardware that works on XP is likely to work on Windows 2000/2003, but is not guaranteed to.
+        </p>
+        <div id="table-wrapper">
+            <div id="table-scroll">
+                <table>
+                    <thead>
+                        <tr style="font-weight: bold">
+                            <td>Operating System</td>
+                            <td>Kernel</td>
+                            <td>PCI</td>
+                            <td>USB</td>
+                            <td>Basic Video</td>
+                            <td>Accelerated Video (HDMI)</td>
+                            <td>Accelerated Video (Component)</td>
+                            <td>Ethernet</td>
+                            <td>WiFi</td>
+                            <td>RCA audio</td>
+                            <td>Optical audio</td>
+                            <td>HDMI audio</td>
+                            <td>Remote</td>
+                            <td>Software Reboot</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><b>Windows 2000</b></td> <!-- Operating System -->
+                            <td>Working</td> <!-- Kernel -->
+                            <td>Working</td> <!-- PCI -->
+                            <td>Working</td> <!-- USB -->
+                            <td>Working</td> <!-- Basic Video -->
+                            <td>Working<sup>1</sup></td> <!-- Accelerated Video (HDMI)-->
+                            <td>Untested</td> <!-- Accelerated Video (Component)-->
+                            <td>Working</td> <!-- Ethernet -->
+                            <td>Untested</td> <!-- WiFi -->
+                            <td>Untested</td> <!-- RCA audio -->
+                            <td>Untested</td> <!-- Optical audio -->
+                            <td>Untested</td> <!-- HDMI audio -->
+                            <td>Broken</td> <!-- Remote -->
+                            <td>Broken</td> <!-- Software Reboot -->
+                        </tr>
+                        <tr>
+                            <td><b>Windows XP</b></td> <!-- Operating System -->
+                            <td>Working</td> <!-- Kernel -->
+                            <td>Working</td> <!-- PCI -->
+                            <td>Working</td> <!-- USB -->
+                            <td>Working</td> <!-- Basic Video -->
+                            <td>Working<sup>2</sup></td> <!-- Accelerated Video (HDMI)-->
+                            <td>Broken</td> <!-- Accelerated Video (Component)-->
+                            <td>Working</td> <!-- Ethernet -->
+                            <td>Working</td> <!-- WiFi -->
+                            <td>Partially Working<sup>3</sup></td> <!-- RCA audio -->
+                            <td>Working</td> <!-- Optical audio -->
+                            <td>Broken</td> <!-- HDMI audio -->
+                            <td>Broken</td> <!-- Remote -->
+                            <td>Working</td> <!-- Software Reboot -->
+                        </tr>
+                        <tr>
+                            <td><b>Windows 2003</b></td> <!-- Operating System -->
+                            <td>Working</td> <!-- Kernel -->
+                            <td>Working</td> <!-- PCI -->
+                            <td>Working</td> <!-- USB -->
+                            <td>Working</td> <!-- Basic Video -->
+                            <td>Untested</td> <!-- Accelerated Video (HDMI)-->
+                            <td>Untested</td> <!-- Accelerated Video (Component)-->
+                            <td>Working</td> <!-- Ethernet -->
+                            <td>Untested</td> <!-- WiFi -->
+                            <td>Untested</td> <!-- RCA audio -->
+                            <td>Untested</td> <!-- Optical audio -->
+                            <td>Untested</td> <!-- HDMI audio -->
+                            <td>Broken</td> <!-- Remote -->
+                            <td>Untested</td> <!-- Software Reboot -->
+                        </tr>
+                        <tr>
+                            <td><b>Windows Vista</b></td> <!-- Operating System -->
+                            <td>Partially Working</td> <!-- Kernel -->
+                            <td>Unknown<sup>4</sup></td> <!-- PCI -->
+                            <td>Unknown<sup>4</sup></td> <!-- USB -->
+                            <td>Broken</td> <!-- Basic Video -->
+                            <td>Unknown<sup>4</sup></td> <!-- Accelerated Video (HDMI)-->
+                            <td>Unknown<sup>4</sup></td> <!-- Accelerated Video (Component)-->
+                            <td>Unknown<sup>4</sup></td> <!-- Ethernet -->
+                            <td>Unknown<sup>4</sup></td> <!-- WiFi -->
+                            <td>Unknown<sup>4</sup></td> <!-- RCA audio -->
+                            <td>Unknown<sup>4</sup></td> <!-- Optical audio -->
+                            <td>Unknown<sup>4</sup></td> <!-- HDMI audio -->
+                            <td>Broken</td> <!-- Remote -->
+                            <td>Unknown<sup>4</sup></td> <!-- Software Reboot -->
+                        </tr>
+                        <tr>
+                            <td><b>ReactOS</b></td> <!-- Operating System -->
+                            <td>Working</td> <!-- Kernel -->
+                            <td>Broken</td> <!-- PCI -->
+                            <td>Broken<sup>5</sup></td> <!-- USB -->
+                            <td>Working</td> <!-- Basic Video -->
+                            <td>Broken<sup>5</sup></td> <!-- Accelerated Video (HDMI)-->
+                            <td>Broken<sup>5</sup></td> <!-- Accelerated Video (Component)-->
+                            <td>Broken<sup>5</sup></td> <!-- Ethernet -->
+                            <td>Broken<sup>5</sup></td> <!-- WiFi -->
+                            <td>Broken<sup>5</sup></td> <!-- RCA audio -->
+                            <td>Broken<sup>5</sup></td> <!-- Optical audio -->
+                            <td>Broken<sup>5</sup></td> <!-- HDMI audio -->
+                            <td>Broken</td> <!-- Remote -->
+                            <td>Broken<sup>5</sup></td> <!-- Software Reboot -->
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <p>
+            <ol>
+                <li>Must use the <a href="https://catalog.s.download.windowsupdate.com/msdownload/update/v3-19990518/cabpool/20011206_16ed66269aeb050f0f0db5059879c857b6a33249.cab" target="_blank">86.38 drivers</a> (direct download link) and install via Device Manager</li>
+                <li>Must use the <a href="https://www.nvidia.com/en-us/drivers/windows/179_48/geforce_notebook_winxp_179-48_beta/" target="_blank">179.48 beta drivers</a> or earlier and install via Device Manager</li>
+                <li>Audio plays, but at an extremely low volume.</li>
+                <li>When booting Vista is attempted, the hard drive will spin up as if the system is booting but USB devices never come online and the system never connects to the network. It is possible that Vista would boot correctly if a working basic video driver is used, but I couldn't get anything working.</li>
+                <li>Non-working PCI breaks all of the others.</li>
+            </ol>
+        </p>
+        <hr>
+        <a id="never-work"><h2>Things that will Likely Never Work</h2></a>
+        <h3>HDMI audio</h3>
+        <p>
+            The Apple TV uses an extremely weird configuration for HDMI audio in that the Intel chipset, not the NVIDIA video card, is responsible for the audio over the HDMI port. The Intel HDMI audio drivers from the GMA 950 drivers will install, but no devices show up. In order to get this working, I'd need to either completely rewrite or binary patch the Intel HDMI audio drivers to support the Apple TV, which would likely be extremely complicated. If someone wants to work on this, let me know.
+        </p>
+        <h3>NTVDM</h3>
+        <p>
+            NTVDM on Windows XP requires some legacy BIOS functions (likely the Extended BIOS data area and legacy VGA functions from the GPU) and therefore will not work. Just use DOSBox or <a href="https://github.com/otya128/winevdm/releases" target="_blank">WineVDM</a> (make sure to download the version for older Windows versions) to run DOS/early Windows applications.
+        </p>
+        <h3>Versions of Windows prior to 2000</h3>
+        <p>
+            NT versions prior to 2000 would require a custom HAL to make use of ACPI and the APIC timer, another custom video driver, and probably some other modifications too. Windows 9x will not work due to its reliance on BIOS functions.
+        </p>
+        <hr>
+        <a id="known-issues"><h2>Known Issues</h2></a>
+        <ul>
+            <li>With the NVIDIA driver installed, if the display goes into standby, unplugging and re-plugging the HDMI cable is required to get a picture. To avoid this issue, set "Turn off monitor" to "Never" in the Power Options Control Panel.</li>
+            <li>Component video doesn't work correctly with the NVIDIA driver. I don't have a component-enabled monitor to test with, but apparently, only the blue component channel is displayed in some cases, and attempting to use both HDMI and component video at the same time breaks the system. You could try it, but it's unlikely to work properly.</li>
+            <li>The FreeLoader (ReactOS bootloader we're using to boot XP) NTFS driver is very buggy, only properly supporting NTFS partitions formatted in English copies of Windows XP SP3 or Windows 2003. If you get errors like <code>Could not load SYSTEM.ALT hive!</code>, try installing Windows on a FAT32 partition.</li>
+            <li>FreeLoader's IDE driver is somewhat buggy, especially on SATA adapters. If you experience freezes during the boot process it is likely because your hard drive is incompatible with FreeLoader as of now.</li>
+            <li>RDP connections fail, reason why is unknown buy may have to do with the NVIDIA driver.</li>
+        </ul>
+        <hr>
+        <a id="changelog"><h2>Changelog</h2></a>
+        <h3>v0.3</h3>
+        <ul>
+            <li>Windows 2000, XP, and 2003 now use the same bootloader and video driver, removing the need to download a seperate ISO</li>
+            <li>Updated FreeLoader codebase again, fixing the line of corrupted characters on the boot screen</li>
+            <li>Reverted memory mapping code due to compatibility issues</li>
+            <li>Removed IDE ISA compatibility mode hack, the IDE controller is now running in PCI mode at all times</li>
+            <li>Minimal GUI is now the default appearance of FreeLoader, resulting in a more NTLDR-looking boot process</li>
+            <li>Executable name is now <code>freeldr.sys</code> instead of <code>mach_kernel</code> for consistency with other FreeLoader ports</li>
+            <li>New prebuilt image adds more up-to-date NVIDIA driver</li>
+        </ul>
+        <h3>v0.2.1.1</h3>
+        <ul>
+            <li>Added Windows 2000 support! There are some caveats:</li>
+            <ul>
+                <li>Likely limited driver support</li>
+                <li>Reboot doesn't work (no ACPI 2.0 support in Windows 2000)</li>
+                <li>More complicated installation process</li>
+            </ul>
+            Use the <code>win2000</code> ISO for Windows 2000 installs.
+        </ul>
+        No changes to the Windows XP/2003 ISO or installation process.
+        <h3>v0.2.1</h3>
+        <ul>
+            <li>Reboot now works! Shutdown still hangs, but the same issue happens on Linux and Mac OS X since the Apple TV has no ACPI shutdown at all.</li>
+            <li>Memory mapping code rewritten and simplified</li>
+        </ul>
+        <h3>v0.2</h3>
+        <ul>
+            <li>NTATV's FreeLoader is now up-to-date with ReactOS' FreeLoader (version 3.2)!</li>
+            <li>IDE driver issues are resolved (theoretically) and the Apple TV should now boot from any IDE drive, including IDE to SATA adapters and SSDs, without issue.</li>
+            <li>New prebuilt image adds NVIDIA driver support out of the box</li>
+        </ul>
+        <h3>v0.1.1</h3>
+        <p>Fix to early video driver preventing corrupted boot logo at certain resolutions</p>
+        <h3>v0.1</h3>
+        <p>Initial release</p>
+    </body>
+</html>
