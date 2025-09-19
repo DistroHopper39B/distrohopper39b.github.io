@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html>
     <style>
+        .unsupported {
+            background-color: lightgray;
+        }
+        
         table, th, td {
             border: 1px solid black; 
             border-collapse: collapse;
@@ -73,6 +77,10 @@
                         </tr>
                     </thead>
                     <tbody>
+                        <tr class="unsupported">
+                            <td><b>Windows pre-2000 (NT3/4, 9x, DOS-based, etc)</b></td>
+                            <td colspan="13"><b>Will likely never work; too reliant on legacy BIOS, PIC interrupts, and non-ACPI device enumeration</b></td>
+                        </tr>
                         <tr>
                             <td><b>Windows 2000</b></td> <!-- Operating System -->
                             <td>Working</td> <!-- Kernel -->
@@ -137,6 +145,46 @@
                             <td>Broken</td> <!-- Remote -->
                             <td>Unknown<sup>4</sup></td> <!-- Software Reboot -->
                         </tr>
+                        <tr class="unsupported">
+                            <td><b>Windows 7</b></td>
+                            <td colspan="13"><b>Does not work; no compatible bootloader or EFI-compliant video driver at this time</b></td>
+                        </tr>
+                        <tr>
+                            <td><b>Windows 8, 8.1</b></td> <!-- Operating System -->
+                            <td>Working<sup>6</sup></td> <!-- Kernel -->
+                            <td>Working</td> <!-- PCI -->
+                            <td>Working</td> <!-- USB -->
+                            <td>Working</td> <!-- Basic Video -->
+                            <td>Working<sup>7</sup></td> <!-- Accelerated Video (HDMI)-->
+                            <td>Untested</td> <!-- Accelerated Video (Component)-->
+                            <td>Working</td> <!-- Ethernet -->
+                            <td>Working</td> <!-- WiFi -->
+                            <td>Partially Working<sup>3</sup></td> <!-- RCA audio -->
+                            <td>Untested</td> <!-- Optical audio -->
+                            <td>Broken</td> <!-- HDMI audio -->
+                            <td>Broken</td> <!-- Remote -->
+                            <td>Working</td> <!-- Software Reboot -->
+                        </tr>
+                        <tr>
+                            <td><b>Windows 10</b></td> <!-- Operating System -->
+                            <td>Working<sup>6</sup></td> <!-- Kernel -->
+                            <td>Working</td> <!-- PCI -->
+                            <td>Working</td> <!-- USB -->
+                            <td>Working</td> <!-- Basic Video -->
+                            <td>Working<sup>7</sup></td> <!-- Accelerated Video (HDMI)-->
+                            <td>Untested</td> <!-- Accelerated Video (Component)-->
+                            <td>Working</td> <!-- Ethernet -->
+                            <td>Working</td> <!-- WiFi -->
+                            <td>Partially Working<sup>3</sup></td> <!-- RCA audio -->
+                            <td>Untested</td> <!-- Optical audio -->
+                            <td>Broken</td> <!-- HDMI audio -->
+                            <td>Broken</td> <!-- Remote -->
+                            <td>Working</td> <!-- Software Reboot -->
+                        </tr>
+                        <tr class="unsupported">
+                            <td><b>Windows 11, any future versions of Windows</b></td>
+                            <td colspan="13"><b>Will never work; no 32-bit CPU support</b></td>
+                        </tr>
                         <tr>
                             <td><b>ReactOS</b></td> <!-- Operating System -->
                             <td>Working</td> <!-- Kernel -->
@@ -162,8 +210,10 @@
                 <li>Must use the <a href="https://catalog.s.download.windowsupdate.com/msdownload/update/v3-19990518/cabpool/20011206_16ed66269aeb050f0f0db5059879c857b6a33249.cab" target="_blank">86.38 drivers</a> (direct download link) and install via Device Manager</li>
                 <li>Must use the <a href="https://www.nvidia.com/en-us/drivers/windows/179_48/geforce_notebook_winxp_179-48_beta/" target="_blank">179.48 beta drivers</a> or earlier and install via Device Manager</li>
                 <li>Audio plays, but at an extremely low volume.</li>
-                <li>When booting Vista is attempted, the hard drive will spin up as if the system is booting but USB devices never come online and the system never connects to the network. It is possible that Vista would boot correctly if a working basic video driver is used, but I couldn't get anything working.</li>
-                <li>Non-working PCI breaks all of the others.</li>
+                <li>When booting Vista is attempted, the hard drive will spin up as if the system is booting but USB devices never come online and the system never connects to the network. It is possible that Vista would boot correctly if a working basic video driver is used, but nothing worked for me. A similar issue appears on later Longhorn builds.</li>
+                <li>Non-working PCI breaks nearly everything on ReactOS.</li>
+                <li>Will only work on Apple TVs upgraded to 512MB RAM, which requires surface mount soldering skills and equipment as well as a firmware flasher. Windows 8 and later also use a completely different installation process involving <a href="https://github.com/DistroHopper39B/u-boot" target="_blank">a modified U-Boot</a> that I haven't documented because there are only a few dozen 512MB Apple TVs.</li>
+                <li>Must use the <a href="https://catalog.s.download.windowsupdate.com/msdownload/update/driver/drvs/2011/06/20254023_72141f37942172d7c548fd7cf01462dfaa24c8a5.cab" target="_blank">179.67 WDDM drivers</a> (direct download link) and install via Device Manager. In modern Windows 10, this driver is very unstable due to issues with old WDDM drivers; turn off transparency for the best experience.</li>
             </ol>
         </p>
         <hr>
@@ -174,7 +224,7 @@
         </p>
         <h3>NTVDM</h3>
         <p>
-            NTVDM on Windows XP requires some legacy BIOS functions (likely the Extended BIOS data area and legacy VGA functions from the GPU) and therefore will not work. Just use DOSBox or <a href="https://github.com/otya128/winevdm/releases" target="_blank">WineVDM</a> (make sure to download the version for older Windows versions) to run DOS/early Windows applications.
+            NTVDM on Windows XP requires some legacy BIOS functions (likely the Extended BIOS data area and legacy VGA functions from the GPU) and therefore will not work. Just use DOSBox or <a href="https://github.com/otya128/winevdm/releases" target="_blank">WineVDM</a> (make sure to download the version for older Windows versions) to run DOS/early Windows applications. I haven't tested it on Windows 8/10 but it probably works fine since those OSes have official UEFI support.
         </p>
         <h3>Versions of Windows prior to 2000</h3>
         <p>
