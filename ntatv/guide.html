@@ -1,5 +1,10 @@
 <!DOCTYPE html>
 <html>
+    <style>
+        code {
+            font-size: larger;
+        }
+    </style>
     <head>
         <title>Guide - NTATV</title>
         <p>
@@ -8,9 +13,203 @@
         <hr>
     </head>
     <body>
-        <h1>NTATV Installation Guide</h1>
+        <h1>How to install Windows on your Original Apple TV</h1>
+        <h4>IMPORTANT: Read <a href="../ntatv.html#known-issues">Known Issues</a> before installing and before opening an issue!</h4>
         <p>
-            Currently under construction, see <a href="https://github.com/DistroHopper39B/NTATV/blob/main/Docs/Guide.md">guide on GitHub</a> for now.
+            There are currently two ways to install Windows XP on the original Apple TV: <a href="#easyway">the easy way</a>, and the hard way. Both methods require you to <a href="https://www.ifixit.com/Guide/Apple+TV+1st+Generation+Hard+Drive+Replacement/4799" target="_blank">remove the hard drive from your Apple TV</a> and use a USB-IDE adapter to access it. <b>Windows does not, and will almost definitely never, be able to boot from a USB drive because I'd need to write a USB stack from scratch.</b>
         </p>
+        <hr>
+        <a id="easyway"><h2>The Easy Way</h2></a>
+        <p>
+            A premade image can be downloaded from <a href="https://archive.org/details/apple-tv-windows-xp-full.img" target="_blank">this Archive.org page</a>. Simply download, extract the zip file, and use a tool like GNOME Disks, <code>dd</code>, Rufus, Etcher, or any other disk flashing tool to write the image to the Apple TV's hard drive (or any laptop IDE drive, the TV isn't picky thankfully). You might have to enable writing to large/hard disks for some programs, so be careful to not overwrite the wrong drive. Put the hard drive in the Apple TV, turn it on, and after a few minutes, you should be at an XP desktop! The XP install has all drivers preinstalled and configured, and uses the default Administrator account with no password. However, there are some disadvantages to doing this:
+            <ol>
+                <li>Only Windows XP SP3 Professional English (US) is available prebuilt.</li>
+                <li>This image teaches you almost nothing.</li>
+                <li>This image will not be updated as frequently (this isn't as relevant as it once was, since most things are working)</li>
+                <li>This image is already installed and slightly used by me, so some of my configuration (e.g. time zone) is on it. If you want to set things up differently, it's worth doing <a href="#hardway">the hard way</a>.</li>
+            </ol>
+            After you install the hard drive into the Apple TV, you will need to <a href="#bootspeed_fix">optimize the boot speed</a> by resetting the NVRAM to avoid a 40-50 second black screen before the NTATV logo appears. You might also want to <a href="#resize_disk">resize the Windows partition</a> once it's on the drive.
+        </p>
+        <hr>
+        <a id="hardway"><h2>The Hard Way</h2></a>
+        <p>
+            This method of installing Windows is quite a bit more involved than the previous method. You will need the following items:
+            <ul>
+                <li>Mac or PC with at least 20GB of free space (Linux-based computer highly recommended)</li>
+                <li>A second computer with Windows XP already installed (don't worry, we won't be erasing this one)</li>
+                <li>USB to IDE adapter and IDE hard disk</li>
+                <li>QEMU for your computer's OS (or VirtualBox if you're installing Windows 2000)</li>
+                <ul>
+                    <li>On macOS, use <a href="https://brew.sh" target="_blank">Homebrew</a></li>
+                    <li>On Linux, use QEMU from your system's package manager</li>
+                    <li>On Windows, use <a href="https://qemu.weilnetz.de/w64/">Stefan Weil's binaries</a> (apparently, I don't use QEMU on Windows)</li>
+                </ul>
+                <li>A <i>definitely</i> legally acquired Windows 2000 SP4, XP SP3, or 2003 ISO</li>
+                <li>The latest version of the <a href="https://github.com/DistroHopper39B/NTATV/releases/" target="_blank">NTATV Drivers and Utilities ISO</a></li>
+            </ul>
+            First, I'd recommend reading (or at least skimming over) this entire guide so you know what to expect and when certain resources are required. Doing this will make it much less likely that you will screw anything up during the installation and will probably save you time in the long run.
+        </p>
+        <p>
+            First, we need a virtual hard disk image. We will restore this to the Apple TV's hard drive once the installation completes, so it must be small enough to fit on there. For Windows XP and 2003, use the following command (for Windows 2000, create a Windows 2000 VM as standard, just ensure you are not using unattended installation):
+        </p>
+        <p>
+            <code>qemu-img create appletv_windows.img 15G</code>
+        </p>
+        <p>
+            This will be the amount of space available to Windows. You can <a href="#resize_disk">resize the OS</a>to fit the full size of the hard drive later. Ensure the size is a few gigabytes smaller than the Apple TV's hard drive, as real-world formatted capacity on hard drives is always smaller than advertised capacity.
+        </p>
+        <p>
+            Now that your hard drive image is created, it's time to install Windows. For this, use the following QEMU command (Linux):
+        </p>
+        <p>
+            <code>qemu-system-i386 -enable-kvm -m 2048 -hda appletv_windows.img -cdrom /path/to/windowsxp.iso -boot d -device usb-ehci,id=ehci -device usb-kbd</code>
+        </p>
+        <p>
+            <i>Technical note: We must add a USB controller with the </i><code>-device</code><i> line so that Windows installs the USB drivers correctly. Failure to do so results in an unusable system.</i>
+        </p>
+        <p>
+            For macOS, replace <code>-enable-kvm</code> with <code>-accel hvf</code> and <code>qemu-system-i386</code> with <code>qemu-system-x86_64</code>.  For Windows, there are a few ways to set hardware accelerated virtualization up. I've never used QEMU on Windows, so you can look it up. Alternatively, you could use VirtualBox for the install, but if you do, <b>you must enable I/O APIC in VirtualBox settings. IF YOU DON'T YOU WILL REGRET IT. DON'T ASK ME HOW I KNOW THIS, AND DON'T ASK ME HOW MANY MONTHS I WASTED ON THIS PROJECT UNTIL I FIGURED THIS OUT.</b>
+        </p>
+        <p>
+            If you are using Windows 2000, start the VM you created earlier. Counterintuitively, <b>you don't want to enable I/O APIC on this OS</b> because it will cause Windows to infinitely loop during setup (Windows 2000's installer sucks).
+        </p>
+        <p>
+            Once you get to the partition list, instead of pressing Enter like usual, press C to create a new partition. Make your new partition at least 20MB smaller than the full size of the disk; I usually leave a bit more room than that.
+        </p>
+        <img src="img/QEMU_001.png" alt="Windows XP Professional Setup: New Partition">
+        <p>
+            Then, create a partition on the remaining space. In the end, your partition map should look something like this:
+        </p>
+        <img src="img/QEMU_002.png" alt="Windows XP Professional Setup: Partition map with 2 partitions, one 5GB and one 100MB">
+        <p>
+            Now, install to the larger partition. Format it as NTFS on English editions of Windows 2003 or XP SP3, and FAT32 on all other versions. Go through the installation process as normal. This should only take a few minutes unless your host system is as old as the Apple TV or you type your <a href="https://www.fckgw.net/" target="_blank">product key</a> in wrong 37 times. 
+        </p>
+        <p>
+            Once Windows is installed, we need to make sure that it goes to the login screen at startup. This can be achieved by either setting a password for your user in Control Panel or changing the login settings so that Windows asks you what user to log in as every time it boots. This is done to work around a stupid Windows issue where USB devices are not enumerated correctly because Windows is too busy asking for manual intervention ("Found New Hardware" wizard) to enumerate USB devices and let you actually <i>do</i> that intervention. Whatever, this was fixed by the time Windows 8 came out, and is never an issue on the login screen, so, that's what this workaround is for!
+        </p>
+        <p>
+            Next, navigate to File Explorer and format the extra partition we created as FAT32 (use Quick Format). This will act as the EFI system partition and is where the bootloader will be stored. Once you do that, if you are using QEMU, shut down the system.
+        </p>
+        <p>
+            Back on the host system's command line, we now need to swap out the CDROM from the Windows ISO to the NTATV Drivers and Utilities ISO. We also need to tell QEMU to boot from the hard drive instead of the CD-ROM. The QEMU parameters should look like this:
+        </p>
+        <p>
+            <code>qemu-system-i386 -enable-kvm -m 2048 -hda appletv_windows.img -cdrom /path/to/ntatv_drivers_and_utils_X.X.iso -boot c -device usb-ehci,id=ehci -device usb-kbd</code>
+        </p>
+        <p>
+            If you're installing Windows 2000, just insert <code>ntatv_drivers_and_utils_X.X.iso</code> into the drive in VirtualBox. No need to shut down.
+        </p>
+        <p>
+            Open the NTATV Utils CD in Explorer and double click on the <code>HDDFix</code> registration entry. When prompted click "Yes" and you should see "Information from HDDFix.reg has been entered into the registry". This allows Windows to boot on hardware other than the hardware it was originally installed on.
+        </p>
+        <img src="img/QEMU_004.png" alt="Are you sure you want to add the information in D:\HDDFix.reg to the registry?">
+        <p>
+            Drag the contents of the <code>Boot</code> folder to the FAT32 partition we just created. (Note that in this image, there is a file called <code>mach_kernel</code>; that has since been replaced with <code>freeldr.sys</code>.)
+        </p>
+        <img src="img/QEMU_005.png" alt="E:\ drive with the contents of the Boot folder">
+        <p>
+            Drag <code>freeldr.ini</code> to the root of the <code>C:</code> drive. For Windows 2000, drag <code>freeldr_Windows2000.ini</code> there and rename it to <code>freeldr.ini</code>. In order to rename it, you will need to unlock the file by unchecking "Read-only" in the properties menu after dragging it to the <code>C:</code> drive.
+        </p>
+        <img src="img/QEMU_011.png" alt="Dragging freeldr.ini to the root of the C: drive.">
+        <p>
+            Now it's time to set up the video driver. Open the Device Manager by typing <code>devmgmt.msc</code> into the Run box, right click on "Video Controller (VGA Compatible)", and select "Update Driver...". Select "No, not this time" when asked about Windows Update, then "Install from a list or specific location (Advanced)", then include the NTATV Utils CD's <code>Video</code> directory in the search.
+        </p>
+        <img src="img/QEMU_006.png" alt="Hardware Update Wizard">
+        <p>
+            When asked about driver signing, select "Continue Anyway". When prompted for the Windows CD-ROM click "OK" (do <b>NOT</b> actually insert the Windows CD into the VM!). Go to "Browse..." and go to the NTATV Utils CD's <code>Video</code> folder for the additional file (<code>BOOTVID.DLL</code>). <i>Fun fact: the driver installer in Windows XP will allow you to bypass typical security features in Windows and replace system files on a running system! That's what we're doing here to replace Windows' stock <code>bootvid.dll</code> with this custom EFI-compatible one. Seems like a massive security risk to me!</i>
+        </p>
+        <img src="img/QEMU_007.png" alt="Dialog asking for Windows XP Professional CD-ROM">
+        <p>
+            In Windows XP and 2003, you will get to a screen stating "This device cannot start. (Code 10)." This is to be expected; the driver is looking for an EFI framebuffer, which doesn't exist in this virtual machine. Windows 2000 will not display an error like this for whatever reason. In either case, shut down the VM.
+        </p>
+        <p>
+            If you are installing Windows 2000, you will need to convert the VDI image from VirtualBox to a raw IMG file. Use the following command for this:
+        </p>
+        <p>
+            <code>VBoxManage internalcommands converttoraw /path/to/Windows2000.vdi appletv_windows.img</code>
+        </p>
+        <p>
+            Now, restore the <code>appletv_windows.img</code> to an IDE hard disk using a tool of your choice (<code>dd</code>, GNOME Disks, Rufus, Etcher, etc). Once the restore is complete, mount the Windows ISO you used for the installation on your host machine and navigate to the <code>I386</code> directory, then extract <code>PCIIDE.SY_</code> to <code>pciide.sys</code> using either Windows' preinstalled <code>expand</code> command line utility or 7-Zip/<code>p7zip</code>. <code>pciide.sys</code> should be placed in the Apple TV hard drive <code>\WINDOWS\system32\drivers</code> (<code>\WINNT</code> instead of <code>\WINDOWS</code> on 2000); ensure the file name is in all lowercase.
+        </p>
+        <p>
+            <b>VERY IMPORTANT NOTE FOR WINDOWS 2000 USERS!</b> If you are installing Windows 2000, you will also need to extract <code>HALAACPI.DL_</code> <b>(NOT <code>HALACPI.DL_</code>, THESE FILES HAVE SIMILAR NAMES BUT THE LATTER WILL RESULT IN AN INFINITE HANG!)</b> to <code>C:\WINNT\system32\hal.dll</code>, replacing the existing file. If you're installing Windows XP/2003, disregard this; the right HAL is already installed.
+        </p>
+        <p>
+            Now, connect the Apple TV's hard drive to the secondary computer already running XP. It is possible to do this using another VM and passing through the hard drive as either an IDE disk or USB device, but using another computer is easier. On your other computer, open Registry Editor, click on the <code>HKEY_LOCAL_MACHINE</code> folder, then go to <code>File -> Load Hive</code>.
+        </p>
+        <img src="img/Screenshot_1.png" alt="Registry Editor, File -> Load Hive... is selected">
+        <p>
+            It will ask you to select a hive; navigate to your Windows install <code>\WINDOWS\system32\config</code> (<code>\WINNT</code> instead of <code>\WINDOWS</code> on 2000) and select the <code>system</code> file.
+        </p>
+        <img src="img/Screenshot_2.PNG" alt="Registry Editor, config directory is highlighted">
+        <p>
+            When asked, name the key <code>SYSTEM_TV</code>. Once you do that open <code>HKEY_LOCAL_MACHINE\SYSTEM_TV\ControlSet001</code>, then right click on <code>Enum</code> and select <code>Permissions...</code> Enable full control for Everyone.
+        </p>
+        <img src="img/Screenshot_4.PNG" alt="Registry Editor, permissions box for Enum">
+        <p>
+            Now, right click on <code>Enum</code> again and select <code>Delete</code>. You'll get an <code>Error while deleting key</code> error, this can be safely ignored. Go back to <code>SYSTEM_TV</code> and go to <code>File -> Unload Hive</code>, then safely eject the hard drive from the system.
+        </p>
+        <p>
+            Place the hard drive back into the Apple TV, but don't reassemble it; we'll need the drive back in a few minutes. Plug in your TV, connect a keyboard and mouse to it, and within about a minute, you should see the glorious NTATV logo, followed by FreeLoader and the Windows logo! The system will hang for several minutes; it needs to reenumerate all system devices, which takes a while. You'll hear the hard drive clicking for several minutes while it does this. After about 5 minutes, the hard drive should stop clicking and the Caps Lock key on your keyboard should work (the latter will only happen on XP and 2003). After the hard drive stops clicking, the Caps Lock key starts working, or about 5 minutes have elapsed, unplug the Apple TV, remove the hard drive, and connect it back to the Windows XP computer.
+        </p>
+        <p>
+            Back on the XP computer, open <code>regedit</code> again and mount the hive again in the same place. Go to <code>ControlSet001\Control\Enum\PCI</code>, then select what should be the first entry in that list (the entry starts with <code>VEN_10DE</code>). Navigate to the key (folder) inside of that key (should be a string of mostly numbers with some letters and ampersands).
+        </p>
+        <img src="img/Screenshot_6.PNG" alt="Registry editor, before manual enumeration">
+        <p>
+            Now, we need to manually enumerate these entries. This part of the installation process cannot easily be scripted because the "string of mostly numbers" is different on every Windows install. The contents of your key <b>must match the below screenshot exactly</b>; on Windows XP and 2003, most of the entries are present by default, but <code>ConfigFlags</code>, <code>Driver</code>, <code>Mfg</code> and <code>Service</code> must be created manually. By the end, the contents should look exactly like this:
+        </p>
+        <img src="img/Screenshot_7.PNG" alt="Registry editor, after manual enumeration">
+        <p>
+            <i>Tip 1: <code>ClassGUID</code> and <code>Driver</code> have the same UUID, so there's no reason to type it in manually; just copy/paste the value from one to the other, then add <code>\0000</code> to the end.</i>
+        </p>
+        <p>
+            <i>Tip 2: If you're installing Windows 2000, there might not be a <code>ClassGUID</code> to copy, but you can copy the one from <code>ControlSet002\Control\Enum\PCI\VEN_80EE&DEV_BEEF...\(string of mostly numbers)</code>.</i>
+        </p>
+        <p>
+            Congratulations! If you did everything right, you successfully set up Windows on your Apple TV! Give yourself a pat on the back. Or a cookie. Or something. Do whatever you want, I'm not your dad. Now it's time to test it out. Unload the hive and disconnect the drive as before, then put it back into the Apple TV. Don't close it up just yet; if you screwed something up, it's better to find out before looking for your screwdriver for forty minutes (it's under the bottom case!). Plug in the Apple TV, wait a few minutes, and cross your fingers that nothing broke. If all goes well, you should get to the login screen a few minutes later! Enter the password you created from before (Windows 2000 might take a few extra seconds to detect USB devices) and log into your new Windows-enhanced Apple TV!
+        </p>
+        <p>
+            Immediately upon logging in, you will be prompted with a "Found New Hardware" wizard for the various unsupported hardware Windows found. Go through this wizard, telling Windows to automatically search for a driver without connecting to Windows Update, and ensuring that "Don't prompt me again to install this software" is checked at the end. The wizard will appear again about seven times for all of the hardware Windows doesn't have drivers for. Follow these same steps for all of these, then properly reboot the system through the Start menu (Windows will not save hardware changes to the registry if it is forcefully shut down). 
+        </p>
+        <hr>
+        <a id="installing_drivers"><h2>Installing Drivers</h2></a>
+        <a id="wifi_sound"><h3>Sound & WiFi</h3></a>
+        <p>
+            "The Easy Way" already has drivers installed minus the remote driver. For "The Hard Way", however, essentially the only drivers installed by default are the drivers for the RTL8139 Ethernet controller and the drivers for the USB controller. The sound and WiFi require the installation of drivers from Boot Camp 3.1.1. Running the main <code>setup.exe</code> will result in a BSOD at some point, but you can manually install the WiFi driver by running <code>Boot Camp\Drivers\Broadcom\BroadcomNetworkAdapterXP.exe</code>, and manually install the sound driver by running <code>Boot Camp\Drivers\RealTek\RealtekSetupXP.exe</code>. I haven't tested the chipset driver as of yet, but it probably works fine.
+        </p>
+        <p>
+            The Realtek sound driver utility, an almost useless tool for most people, hogs over 20MB of RAM at idle. I'd recommend disabling it as a startup item in <code>msconfig</code>.
+        </p>
+        <a id="nvidia_driver"><h3>NVIDIA Graphics</h3></a>
+        <p>
+            As mentioned in <a href="../ntatv.html#status">the Status table</a>, the NVIDIA driver requires more work. For Windows XP (and probably 2003 as well), you'll need to use the <a href="https://www.nvidia.com/en-us/drivers/windows/179_48/geforce_notebook_winxp_179-48_beta/" target="_blank">179.48 beta driver</a> (the stable driver seems to cause an indefinite hang; the beta driver doesn't seem to have any major bugs or instabilities). Once the driver is extracted, the NVIDIA driver setup will probably complain that there are no supported GPUs; this is due to the fact that neither Apple nor NVIDIA intended this device to run Windows and therefore never shipped an INI file with the correct subsystem ID for this card. To get around this issue, open Device Manager, right click on "Generic Framebuffer Miniport Adapter", select "Update Driver", and search in <code>C:\NVIDIA\WinXP\179.48\IS</code> (or wherever you extracted the NVIDIA driver). Once the driver installs, reboot the system; do note that the display will completely turn off for as many as 20 seconds before the cursor reappears.
+        </p>
+        <p>
+            For Windows 2000, you need the <a href="https://catalog.s.download.windowsupdate.com/msdownload/update/v3-19990518/cabpool/20011206_16ed66269aeb050f0f0db5059879c857b6a33249.cab" target="_blank">86.38 drivers</a> (direct download). Extract the CAB file and follow the XP steps except, of course, tell Windows to search wherever you extracted the CAB.
+        </p>
+        <p>
+            For some reason, 3D acceleration is disabled out of the box. Open Display Properties, then go to Settings (you might get an error that will go away the next time you reboot your TV) -> Advanced -> Troubleshoot, then set "Hardware Acceleration" to "Full". Reboot, and you should have GPU acceleration! The NVIDIA control panel also works, but might require another reboot.
+        </p>
+        <p>
+            By default, the NVIDIA card will steal 64MB of your system RAM for itself through something known as "TurboCache". Unless you really need 128MB of VRAM, I'd recommend disabling this due to the extremely low system RAM in the Apple TV. See <a href="https://www.techsupportforum.com/threads/how-to-disable-turbocache.204963/?u=286878&sortby=newest" target="_blank">this ancient forum post</a> for instructions on how to do this.
+        </p>
+        <p>
+            <i>Note: a small percentage of particularly early Apple TVs actually have 128MB VRAM on board from the factory! If you have an Apple TV with that much VRAM, consider yourself lucky. TurboCache doesn't seem to be enabled on those units, so disabling it won't do anything unless your Apple TV has 512MB RAM.</i>
+        </p>
+        <p>
+            Thank you Guido Lehwalder (<a href="https://mastodon.online/@guidol70/114043812917235617" target="_blank">@guidol70@mastodon.online</a>) for getting the 86.38 driver working and <a href="https://github.com/Piggyhero2006" target="_blank">Piggyhero2006</a> for getting the 179.48 driver working!
+        </p>
+        <hr>
+        <a id="bootspeed_fix"><h2>Optimizing the Boot Speed</h2></a>
+        <p>
+            When you are booting into Windows, you'll notice a 40-50 second black screen before the NTATV logo appears on the screen. This is because the Windows HDD is not set as the default boot device in the Apple TV's EFI firmware. To fix this, <a href="https://support.apple.com/en-us/102539" target="_blank">reset the NVRAM</a> by holding Command-Option-P-R on an attached USB keyboard <b>(must be a wired keyboard, NOT a keyboard connected with a 2.4GHz dongle or Bluetooth)</b> for 50 seconds right after plugging in the Apple TV. The boot speed should be reduced by about 30 seconds once this is done.
+        </p>
+        <hr>
+        <a id="resize_disk"><h2>Resizing the Windows Installation</h2></a>
+        <p>
+            The Windows installation can be resized using <a href="https://gparted.org">GParted</a>, either the Linux app or the live disc. In GParted, delete the boot partition, grow the NTFS partition to at least 20MB less than the disk size, then recreate the boot partition as a FAT32 partition in the free space using the files from the NTATV driver ISO. On the first boot after you resize the disk, Windows will either reboot after a minute or two or hang indefinitely on a no-signal (if the NVIDIA drivers are installed) due to Windows running a filesystem integrity check. If Windows hangs at a no-signal, give it at least a few minutes before power cycling the Apple TV so that the filesystem check finishes.
+        </p>
+        <hr>
     </body>
 </html>
