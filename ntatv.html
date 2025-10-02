@@ -106,7 +106,7 @@
                             <td>Working</td> <!-- USB -->
                             <td>Working</td> <!-- Basic Video -->
                             <td>Working<sup>2</sup></td> <!-- Accelerated Video (HDMI)-->
-                            <td>Broken</td> <!-- Accelerated Video (Component)-->
+                            <td>Working<sup>8</sup></td> <!-- Accelerated Video (Component)-->
                             <td>Working</td> <!-- Ethernet -->
                             <td>Working</td> <!-- WiFi -->
                             <td>Partially Working<sup>3</sup></td> <!-- RCA audio -->
@@ -209,13 +209,14 @@
         </div>
         <p>
             <ol>
-                <li>Must use the <a href="https://catalog.s.download.windowsupdate.com/msdownload/update/v3-19990518/cabpool/20011206_16ed66269aeb050f0f0db5059879c857b6a33249.cab" target="_blank">86.38 drivers</a> (direct download link) and install via Device Manager</li>
-                <li>Must use the <a href="https://www.nvidia.com/en-us/drivers/windows/179_48/geforce_notebook_winxp_179-48_beta/" target="_blank">179.48 beta drivers</a> or earlier and install via Device Manager</li>
+                <li>Must use the <a href="https://catalog.s.download.windowsupdate.com/msdownload/update/v3-19990518/cabpool/20011206_16ed66269aeb050f0f0db5059879c857b6a33249.cab" target="_blank">86.38 drivers</a> (direct download link) and install via Device Manager. For 1920x1200 monitors, use an HDMI to DVI adapter for full resolution.</li>
+                <li>Must use the <a href="https://www.nvidia.com/en-us/drivers/windows/179_48/geforce_notebook_winxp_179-48_beta/" target="_blank">179.48 beta drivers</a> or earlier and install via Device Manager. For 1920x1200 monitors, use an HDMI to DVI adapter for full resolution.</li>
                 <li>Audio plays, but at an extremely low volume.</li>
                 <li>When booting Vista is attempted, the hard drive will spin up as if the system is booting but USB devices never come online and the system never connects to the network. It is possible that Vista would boot correctly if a working basic video driver is used, but nothing worked for me. A similar issue appears on later Longhorn builds.</li>
                 <li>Non-working PCI breaks nearly everything on ReactOS.</li>
                 <li>Will only work on Apple TVs upgraded to 512MB RAM, which requires surface mount soldering skills and equipment as well as a firmware flasher. Windows 8 and later also use a completely different installation process involving <a href="https://github.com/DistroHopper39B/u-boot" target="_blank">a modified U-Boot</a> that I haven't documented because there are only a few dozen 512MB Apple TVs.</li>
                 <li>Must use the <a href="https://catalog.s.download.windowsupdate.com/msdownload/update/driver/drvs/2011/06/20254023_72141f37942172d7c548fd7cf01462dfaa24c8a5.cab" target="_blank">179.67 WDDM drivers</a> (direct download link) and install via Device Manager. In modern Windows 10, this driver is very unstable due to issues with old WDDM drivers; turn off transparency for the best experience.</li>
+                <li>May be a bit finicky; use the NVIDIA Control Panel's HDTV settings to adjust the monitor parameters. Attempting to extend the desktop across both an HDMI and Component monitor apparently bricks your install.</li>
             </ol>
         </p>
         <hr>
