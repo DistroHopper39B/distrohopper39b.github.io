@@ -209,6 +209,16 @@
             Thank you Guido Lehwalder (<a href="https://mastodon.online/@guidol70/114043812917235617" target="_blank">@guidol70@mastodon.online</a>) for getting the 86.38 driver working and <a href="https://github.com/Piggyhero2006" target="_blank">Piggyhero2006</a> for getting the 179.48 driver working!
         </p>
         <hr>
+        <a id="bootspeed_fix"><h2>Optimizing the Boot Speed</h2></a>
+        <p>
+            When you are booting into Windows, you'll notice a 40-50 second black screen before the NTATV logo appears on the screen. This is because the Windows HDD is not set as the default boot device in the Apple TV's EFI firmware. To fix this, <a href="https://support.apple.com/en-us/102539" target="_blank">reset the NVRAM</a> by holding Command-Option-P-R on an attached USB keyboard <b>(must be a wired keyboard, NOT a keyboard connected with a 2.4GHz dongle)</b> for 50 seconds right after plugging in the Apple TV. The boot speed should be reduced by about 30 seconds once this is done.
+        </p>
+        <hr>
+        <a id="resize_disk"><h2>Resizing the Windows Installation</h2></a>
+        <p>
+            The Windows installation can be resized using <a href="https://gparted.org">GParted</a>, either the Linux app or the live disc. In GParted, delete the boot partition, grow the NTFS partition to at least 20MB less than the disk size, then recreate the boot partition as a FAT32 partition in the free space using the files from the NTATV driver ISO. On the first boot after you resize the disk, Windows will either reboot after a minute or two or hang indefinitely on a no-signal (if the NVIDIA drivers are installed) due to Windows running a filesystem integrity check. If Windows hangs at a no-signal, give it at least a few minutes before power cycling the Apple TV so that the filesystem check finishes.
+        </p>
+        <hr>
         <a id="troubleshooting"><h2>Troubleshooting</h2></a>
         <a id="blank_screen_after_windows_boot_logo"><h3>Black screen after Windows boot logo</h3></a>
         <p>
@@ -222,16 +232,5 @@
         <p>
             This is either due to issues with IDE adapters or a failing HDD. Try a working IDE HDD.
         </p>
-        <hr>
-        <a id="bootspeed_fix"><h2>Optimizing the Boot Speed</h2></a>
-        <p>
-            When you are booting into Windows, you'll notice a 40-50 second black screen before the NTATV logo appears on the screen. This is because the Windows HDD is not set as the default boot device in the Apple TV's EFI firmware. To fix this, <a href="https://support.apple.com/en-us/102539" target="_blank">reset the NVRAM</a> by holding Command-Option-P-R on an attached USB keyboard <b>(must be a wired keyboard, NOT a keyboard connected with a 2.4GHz dongle)</b> for 50 seconds right after plugging in the Apple TV. The boot speed should be reduced by about 30 seconds once this is done.
-        </p>
-        <hr>
-        <a id="resize_disk"><h2>Resizing the Windows Installation</h2></a>
-        <p>
-            The Windows installation can be resized using <a href="https://gparted.org">GParted</a>, either the Linux app or the live disc. In GParted, delete the boot partition, grow the NTFS partition to at least 20MB less than the disk size, then recreate the boot partition as a FAT32 partition in the free space using the files from the NTATV driver ISO. On the first boot after you resize the disk, Windows will either reboot after a minute or two or hang indefinitely on a no-signal (if the NVIDIA drivers are installed) due to Windows running a filesystem integrity check. If Windows hangs at a no-signal, give it at least a few minutes before power cycling the Apple TV so that the filesystem check finishes.
-        </p>
-        <hr>
     </body>
 </html>
