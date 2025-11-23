@@ -92,8 +92,8 @@
                             <td>Working<sup>1</sup></td> <!-- Accelerated Video (HDMI)-->
                             <td>Untested</td> <!-- Accelerated Video (Component)-->
                             <td>Working</td> <!-- Ethernet -->
-                            <td>Untested</td> <!-- WiFi -->
-                            <td>Untested</td> <!-- RCA audio -->
+                            <td>Working<sup>2</sup></td> <!-- WiFi -->
+                            <td>Partially Working<sup>3</sup></td> <!-- RCA audio -->
                             <td>Untested</td> <!-- Optical audio -->
                             <td>Untested</td> <!-- HDMI audio -->
                             <td>Broken</td> <!-- Remote -->
@@ -105,7 +105,7 @@
                             <td>Working</td> <!-- PCI -->
                             <td>Working</td> <!-- USB -->
                             <td>Working</td> <!-- Basic Video -->
-                            <td>Working<sup>2</sup></td> <!-- Accelerated Video (HDMI)-->
+                            <td>Working<sup>1</sup></td> <!-- Accelerated Video (HDMI)-->
                             <td>Working<sup>8</sup></td> <!-- Accelerated Video (Component)-->
                             <td>Working</td> <!-- Ethernet -->
                             <td>Working</td> <!-- WiFi -->
@@ -209,8 +209,8 @@
         </div>
         <p>
             <ol>
-                <li>Must use the <a href="https://catalog.s.download.windowsupdate.com/msdownload/update/v3-19990518/cabpool/20011206_16ed66269aeb050f0f0db5059879c857b6a33249.cab" target="_blank">86.38 drivers</a> (direct download link) and install via Device Manager. For 1920x1200 monitors, use an HDMI to DVI adapter for full resolution.</li>
                 <li>Must use the <a href="https://www.nvidia.com/en-us/drivers/windows/179_48/geforce_notebook_winxp_179-48_beta/" target="_blank">179.48 beta drivers</a> or earlier and install via Device Manager. For 1920x1200 monitors, use an HDMI to DVI adapter for full resolution.</li>
+                <li>With Boot Camp 3.1.1 drivers + <a href="http://web.archive.org/web/20071010213632/http://www.boingo.com/downloads/BW1201/boingoinstaller.exe" target="_blank">this version of Boingo (direct download link)</a>.</li>
                 <li>Audio plays, but at an extremely low volume.</li>
                 <li>When booting Vista is attempted, the hard drive will spin up as if the system is booting but USB devices never come online and the system never connects to the network. It is possible that Vista would boot correctly if a working basic video driver is used, but nothing worked for me. A similar issue appears on later Longhorn builds.</li>
                 <li>Non-working PCI breaks nearly everything on ReactOS.</li>
@@ -219,6 +219,15 @@
                 <li>May be a bit finicky; use the NVIDIA Control Panel's HDTV settings to adjust the monitor parameters. Attempting to extend the desktop across both an HDMI and Component monitor apparently bricks your install.</li>
             </ol>
         </p>
+        <hr>
+        <a id="known-issues"><h2>Known Issues</h2></a>
+        <ul>
+            <li>With the NVIDIA driver installed, if the display goes into standby, unplugging and re-plugging the HDMI cable is required to get a picture. To avoid this issue, set "Turn off monitor" to "Never" in the Power Options Control Panel.</li>
+            <li>Component video doesn't work correctly with the NVIDIA driver. I don't have a component-enabled monitor to test with, but apparently, only the blue component channel is displayed in some cases, and attempting to use both HDMI and component video at the same time breaks the system. You could try it, but it's unlikely to work properly.</li>
+            <li>The FreeLoader (ReactOS bootloader we're using to boot XP) NTFS driver is very buggy, only properly supporting NTFS partitions formatted in English copies of Windows XP SP3 or Windows 2003. If you are using any other version <b>(such as Windows 2000)</b>, or get errors like <code>Could not load SYSTEM.ALT hive!</code>, try installing Windows on a FAT32 partition and converting to NTFS once the system is installed (this generally works for whatever reason)</li>
+            <li>FreeLoader's IDE driver is somewhat buggy, especially on SATA adapters. If you experience freezes during the boot process it is likely because your hard drive is incompatible with FreeLoader as of now.</li>
+            <li>RDP connections fail, reason why is unknown buy may have to do with the NVIDIA driver.</li>
+        </ul>
         <hr>
         <a id="never-work"><h2>Things that will Likely Never Work</h2></a>
         <h3>HDMI audio</h3>
@@ -251,15 +260,6 @@
             </ul>
             <code>freeldr.sys</code> will be located in <code>output-MinGW-i386/boot/freeldr/freeldr</code>.
         </p>
-        <hr>
-        <a id="known-issues"><h2>Known Issues</h2></a>
-        <ul>
-            <li>With the NVIDIA driver installed, if the display goes into standby, unplugging and re-plugging the HDMI cable is required to get a picture. To avoid this issue, set "Turn off monitor" to "Never" in the Power Options Control Panel.</li>
-            <li>Component video doesn't work correctly with the NVIDIA driver. I don't have a component-enabled monitor to test with, but apparently, only the blue component channel is displayed in some cases, and attempting to use both HDMI and component video at the same time breaks the system. You could try it, but it's unlikely to work properly.</li>
-            <li>The FreeLoader (ReactOS bootloader we're using to boot XP) NTFS driver is very buggy, only properly supporting NTFS partitions formatted in English copies of Windows XP SP3 or Windows 2003. If you are using any other version <b>(such as Windows 2000)</b>, or get errors like <code>Could not load SYSTEM.ALT hive!</code>, try installing Windows on a FAT32 partition.</li>
-            <li>FreeLoader's IDE driver is somewhat buggy, especially on SATA adapters. If you experience freezes during the boot process it is likely because your hard drive is incompatible with FreeLoader as of now.</li>
-            <li>RDP connections fail, reason why is unknown buy may have to do with the NVIDIA driver.</li>
-        </ul>
         <hr>
         <a id="changelog"><h2>Changelog</h2></a>
         <h3>v0.3</h3>

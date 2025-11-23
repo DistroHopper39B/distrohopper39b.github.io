@@ -174,19 +174,27 @@
         </p>
         <hr>
         <a id="installing_drivers"><h2>Installing Drivers</h2></a>
-        <a id="wifi_sound"><h3>Sound & WiFi</h3></a>
+        <a id="wifi"><h3>Wi-Fi</h3></a>
         <p>
-            "The Easy Way" already has drivers installed minus the remote driver. For "The Hard Way", however, essentially the only drivers installed by default are the drivers for the RTL8139 Ethernet controller and the drivers for the USB controller. The sound and WiFi require the installation of drivers from Boot Camp 3.1.1. Running the main <code>setup.exe</code> will result in a BSOD at some point, but you can manually install the WiFi driver by running <code>Boot Camp\Drivers\Broadcom\BroadcomNetworkAdapterXP.exe</code>, and manually install the sound driver by running <code>Boot Camp\Drivers\RealTek\RealtekSetupXP.exe</code>. I haven't tested the chipset driver as of yet, but it probably works fine.
+            Download the Boot Camp 3.1.1 drivers from <a href="https://archive.org/details/boot-camp-3.1.1">here</a> and copy them to a USB drive. <b>Do NOT run <code>setup.exe</code></b>; instead, navigate to <code>Boot Camp\Drivers\Broadcom</code> and run <code>BroadcomNetworkAdapterXP.exe</code>. On later editions of Windows XP, you should be able to connect to Wi-Fi through the built-in Wi-Fi utilities without issue, but on Windows 2000 and likely earlier XP editions too, you'll need to do a few more things:
+            <ol>
+                <li>Run <code>BroadcomNetworkAdapterXP.exe</code> as normal</li>
+                <li>Install <a href="https://winworldpc.com/product/internet-explorer/ie-6" target="_blank">Internet Explorer 6</a> (IE 5.5 should work too)</li>
+                <li>Install <a href="web.archive.org/web/20010608064323/http://mssjus.www.conxion.com/download/vc60pro/update/1/w9xnt4/en-us/vc6redistsetup_enu.exe" target="_blank">Visual C++ 6 redistributable</a> (direct download link)</li>
+                <li>Install <a href="http://web.archive.org/web/20071010213632/http://www.boingo.com/downloads/BW1201/boingoinstaller.exe">this version of Boingo Wireless Software</a> (direct download link)</li>
+            </ol>
+            It should then be possible to setup Wi-Fi (including 5GHz and WPA2) in Boingo. However, Boingo in my experience is extremely buggy and freezes frequently (Wi-Fi connections seem to be uninturrupted).
+        </p>
+        <a id="sound"><h3>Sound</h3></a>
+        <p>
+            Run <code>Boot Camp\Drivers\RealTek\RealtekSetupXP.exe</code> from the Boot Camp 3.1.1 bundle. As mentioned in <a href="../ntatv.html#known-issues">Known Issues</a>, RCA audio plays at an extremely (unusably) low volume, but RCA audio works fine.
         </p>
         <p>
-            The Realtek sound driver utility, an almost useless tool for most people, hogs over 20MB of RAM at idle. I'd recommend disabling it as a startup item in <code>msconfig</code>.
+            The Realtek sound driver utility, an almost useless tool for most people, hogs over 20MB of RAM at idle. I'd recommend disabling it as a startup item in <code>msconfig</code> (or, in Windows 2000, deleting <code>RTHDCPL</code> from <code>HKLM\Software\Microsoft\Windows\CurrentVersion\Run</code>) to free up some RAM.
         </p>
         <a id="nvidia_driver"><h3>NVIDIA Graphics</h3></a>
         <p>
-            As mentioned in <a href="../ntatv.html#status">the Status table</a>, the NVIDIA driver requires more work. For Windows XP (and probably 2003 as well), you'll need to use the <a href="https://www.nvidia.com/en-us/drivers/windows/179_48/geforce_notebook_winxp_179-48_beta/" target="_blank">179.48 beta driver</a> (the stable driver seems to cause an indefinite hang; the beta driver doesn't seem to have any major bugs or instabilities). Once the driver is extracted, the NVIDIA driver setup will probably complain that there are no supported GPUs; this is due to the fact that neither Apple nor NVIDIA intended this device to run Windows and therefore never shipped an INI file with the correct subsystem ID for this card. To get around this issue, open Device Manager, right click on "Generic Framebuffer Miniport Adapter", select "Update Driver", and search in <code>C:\NVIDIA\WinXP\179.48\IS</code> (or wherever you extracted the NVIDIA driver). Once the driver installs, reboot the system; do note that the display will completely turn off for as many as 20 seconds before the cursor reappears.
-        </p>
-        <p>
-            For Windows 2000, you need the <a href="https://catalog.s.download.windowsupdate.com/msdownload/update/v3-19990518/cabpool/20011206_16ed66269aeb050f0f0db5059879c857b6a33249.cab" target="_blank">86.38 drivers</a> (direct download). Extract the CAB file and follow the XP steps except, of course, tell Windows to search wherever you extracted the CAB.
+            For Windows 2000/XP (and probably 2003 as well), you'll need to use the <a href="https://www.nvidia.com/en-us/drivers/windows/179_48/geforce_notebook_winxp_179-48_beta/" target="_blank">179.48 beta driver</a> (the stable driver seems to cause an indefinite hang; the beta driver doesn't seem to have any major bugs or instabilities). Once the driver is extracted, the NVIDIA driver setup will probably complain that there are no supported GPUs; this is due to the fact that neither Apple nor NVIDIA intended this device to run Windows and therefore never shipped an INI file with the correct subsystem ID for this card. To get around this issue, open Device Manager, right click on "Generic Framebuffer Miniport Adapter", select "Update Driver", and search in <code>C:\NVIDIA\WinXP\179.48\IS</code> (or wherever you extracted the NVIDIA driver). Once the driver installs, reboot the system; do note that the display will completely turn off for as many as 20 seconds before the cursor reappears.
         </p>
         <p>
             For some reason, 3D acceleration is disabled out of the box. Open Display Properties, then go to Settings (you might get an error that will go away the next time you reboot your TV) -> Advanced -> Troubleshoot, then set "Hardware Acceleration" to "Full". Reboot, and you should have GPU acceleration! The NVIDIA control panel also works, but might require another reboot.
@@ -201,9 +209,23 @@
             Thank you Guido Lehwalder (<a href="https://mastodon.online/@guidol70/114043812917235617" target="_blank">@guidol70@mastodon.online</a>) for getting the 86.38 driver working and <a href="https://github.com/Piggyhero2006" target="_blank">Piggyhero2006</a> for getting the 179.48 driver working!
         </p>
         <hr>
+        <a id="troubleshooting"><h2>Troubleshooting</h2></a>
+        <a id="blank_screen_after_windows_boot_logo"><h3>Black screen after Windows boot logo</h3></a>
+        <p>
+            This generally means that you didn't set up <code>genfbvmp</code> correctly. Ensure that your enumeration is <b>identical to</b> the image above.
+        </p>
+        <a id="cannot_load_system_alt_hive"><h3><code>Cannot load SYSTEM.ALT hive!</code> in FreeLoader</h3></a>
+        <p>
+            This is due to problems with FreeLoader's NTFS driver. To fix this, install Windows onto a FAT32 partition, convert the partition to NTFS by typing <code>convert C: /fs:ntfs</code> in the Command Prompt, then rebooting. Why this works I have no idea, but it has never failed me.
+        </p>
+        <a id="freezing_during_boot"><h3>Freezing during boot</h3></a>
+        <p>
+            This is either due to issues with IDE adapters or a failing HDD. Try a working IDE HDD.
+        </p>
+        <hr>
         <a id="bootspeed_fix"><h2>Optimizing the Boot Speed</h2></a>
         <p>
-            When you are booting into Windows, you'll notice a 40-50 second black screen before the NTATV logo appears on the screen. This is because the Windows HDD is not set as the default boot device in the Apple TV's EFI firmware. To fix this, <a href="https://support.apple.com/en-us/102539" target="_blank">reset the NVRAM</a> by holding Command-Option-P-R on an attached USB keyboard <b>(must be a wired keyboard, NOT a keyboard connected with a 2.4GHz dongle or Bluetooth)</b> for 50 seconds right after plugging in the Apple TV. The boot speed should be reduced by about 30 seconds once this is done.
+            When you are booting into Windows, you'll notice a 40-50 second black screen before the NTATV logo appears on the screen. This is because the Windows HDD is not set as the default boot device in the Apple TV's EFI firmware. To fix this, <a href="https://support.apple.com/en-us/102539" target="_blank">reset the NVRAM</a> by holding Command-Option-P-R on an attached USB keyboard <b>(must be a wired keyboard, NOT a keyboard connected with a 2.4GHz dongle)</b> for 50 seconds right after plugging in the Apple TV. The boot speed should be reduced by about 30 seconds once this is done.
         </p>
         <hr>
         <a id="resize_disk"><h2>Resizing the Windows Installation</h2></a>
