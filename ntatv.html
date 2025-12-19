@@ -262,6 +262,14 @@
         </p>
         <hr>
         <a id="changelog"><h2>Changelog</h2></a>
+        <h3>v0.5</h3>
+        <ul>
+            <li>Massively simplified Windows install process:</li>
+            <ul>
+                <li>Second XP machine for installation no longer needed! We are now using <code>CriticalDeviceDatabase</code> to automatically load the framebuffer driver.</li>
+                <li><code>pciide.sys</code> copying no longer required</li>
+            </ul>
+        </ul>
         <h3>v0.3</h3>
         <ul>
             <li>Windows 2000, XP, and 2003 now use the same bootloader and video driver, removing the need to download a seperate ISO</li>
@@ -301,7 +309,7 @@
         
         <a id="acknowledgements"><h2>Acknowledgements</h2></a>
         <ul>
-            <li><code>NTATV_UTILS/HDDFix.reg</code>: <a href="https://www.betaarchive.com/wiki/index.php/Microsoft_KB_Archive/314082" target="_blank">Microsoft KB314082</a></li>
+            <li><code>NTATV_UTILS/DiskAndVideoFix.reg</code>: currentq's testing</li>
             <li><code>NTATV_UTILS/Boot/boot.efi</code>: Apple TV stock bootloader, from Apple TV stock OS</li>
             <li><code>NTATV_UTILS/Boot/freeldr.sys</code>: <a href="https://reactos.org/wiki/FreeLoader" target="_blank">FreeLoader</a> from <a href="https://reactos.org/" target="_blank">ReactOS</a>; Apple TV modifications by me, UEFI modifications by <a href="https://github.com/DarkFire01" target="_blank">Justin Miller (The_DarkFire_)</a> and <a href="https://github.com/HBelusca" target="_blank">Hermès Bélusca-Maïto</a></li>
             <li><code>NTATV_UTILS/Boot/System/Library/Extensions/Dummy.kext</code>: <a href="https://github.com/DistroHopper39B/DummyKext" target="_blank">DummyKext</a> by me</li>
