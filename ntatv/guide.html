@@ -37,40 +37,40 @@
             <ul>
                 <li>Mac or PC with at least 20GB of free space (Linux-based computer recommended)</li>
                 <li>USB to IDE adapter and IDE hard disk</li>
-                <li>QEMU for your computer's OS (or VirtualBox if you're installing Windows 2000)</li>
+                <li>QEMU for your computer's OS</li>
                 <ul>
                     <li>On macOS, use <a href="https://brew.sh" target="_blank">Homebrew</a></li>
                     <li>On Linux, use QEMU from your system's package manager</li>
                     <li>On Windows, use <a href="https://qemu.weilnetz.de/w64/">Stefan Weil's binaries</a> (apparently, I don't use QEMU on Windows)</li>
                 </ul>
-                <li>A <i>definitely</i> legally acquired Windows 2000 SP4, XP SP3, or 2003 ISO</li>
+                <li>A <i>definitely</i> legally acquired Windows 2000 SP4, XP (any XP-derived OS like Windows FLP or Windows Embedded should work too), or 2003 ISO</li>
+                <ul>
+                    <li>Note that Windows 2000 does not support software reboot; you will have to either pull the plug or hold Power and Volume Down after the system freezes or the screen turns off</li>
+                </ul>
                 <li>The latest version of the <a href="https://github.com/DistroHopper39B/NTATV/releases/" target="_blank">NTATV Drivers and Utilities ISO</a></li>
             </ul>
             <b>I'd recommend reading (or at least skimming over) this entire guide so you know what to expect and when certain resources are required. Doing this will make it much less likely that you will screw anything up during the installation and will probably save you time in the long run.</b>
         </p>
         <p>
-            First, we need a virtual hard disk image. We will restore this to the Apple TV's hard drive once the installation completes, so it must be small enough to fit on there. For Windows XP and 2003, use the following command (for Windows 2000, create a Windows 2000 VM as standard, just ensure you are not using unattended installation):
+            First, we need a virtual hard disk image. We will restore this to the Apple TV's hard drive once the installation completes, so it must be small enough to fit on there. Use the following command:
         </p>
         <p>
             <code>qemu-img create appletv_windows.img 15G</code>
         </p>
         <p>
-            This will be the amount of space available to Windows. You can <a href="#resize_disk">resize the OS</a>to fit the full size of the hard drive later. Ensure the size is a few gigabytes smaller than the Apple TV's hard drive, as real-world formatted capacity on hard drives is always smaller than advertised capacity.
+            This will be the amount of space available to Windows. You can <a href="#resize_disk">resize the OS</a> to fit the full size of the hard drive later. Ensure the size is a few gigabytes smaller than the Apple TV's hard drive, as real-world formatted capacity on hard drives is always smaller than advertised capacity.
         </p>
         <p>
             Now that your hard drive image is created, it's time to install Windows. For this, use the following QEMU command (Linux):
         </p>
         <p>
-            <code>qemu-system-i386 -enable-kvm -m 2048 -hda appletv_windows.img -cdrom /path/to/windowsxp.iso -boot d -device usb-ehci,id=ehci -device usb-kbd</code>
+            <code>qemu-system-i386 -enable-kvm -m 2048 -hda appletv_windows.img -cdrom /path/to/windowsxp.iso -boot d -device piix3-usb-uhci,id=uhci</code>
         </p>
         <p>
             <i>Technical note: We must add a USB controller with the </i><code>-device</code><i> line so that Windows installs the USB drivers correctly. Failure to do so results in an unusable system.</i>
         </p>
         <p>
-            For macOS, replace <code>-enable-kvm</code> with <code>-accel hvf</code> and <code>qemu-system-i386</code> with <code>qemu-system-x86_64</code>.  For Windows, there are a few ways to set hardware accelerated virtualization up. I've never used QEMU on Windows, so you can look it up. Alternatively, you could use VirtualBox for the install, but if you do, <b>you must enable I/O APIC in VirtualBox settings. IF YOU DON'T YOU WILL REGRET IT. DON'T ASK ME HOW I KNOW THIS, AND DON'T ASK ME HOW MANY MONTHS I WASTED ON THIS PROJECT UNTIL I FIGURED THIS OUT.</b>
-        </p>
-        <p>
-            If you are using Windows 2000, start the VM you created earlier. Counterintuitively, <b>you don't want to enable I/O APIC on this OS</b> because it will cause Windows to infinitely loop during setup (Windows 2000's installer sucks).
+            For macOS, replace <code>-enable-kvm</code> with <code>-accel hvf</code> and <code>qemu-system-i386</code> with <code>qemu-system-x86_64</code>.  For Windows, enable Windows Hypervisor Platform in Programs and Features and replace <code>-enable-kvm</code> with <code>-accel whpx</code> (I haven't tested QEMU on Windows, so there might be other stuff required, googling around will help you). Alternatively, you could use VirtualBox for the install, but if you do, <b>if you're installing Windows XP or 2003 you must enable I/O APIC in VirtualBox settings before installation. IF YOU DON'T YOU WILL REGRET IT. DON'T ASK ME HOW I KNOW THIS, AND DON'T ASK ME HOW MANY MONTHS I WASTED ON THIS PROJECT UNTIL I FIGURED THIS OUT.</b> <i>Counterintuitively, <b>you don't want to enable I/O APIC on Windows 2000</b> because it will cause Windows to infinitely loop during setup (Windows 2000's installer sucks). We will rectify this issue later.</i>
         </p>
         <p>
             Once you get to the partition list, instead of pressing Enter like usual, press C to create a new partition. Make your new partition at least 20MB smaller than the full size of the disk; I usually leave a bit more room than that.
@@ -81,10 +81,10 @@
         </p>
         <img src="img/QEMU_002.png" alt="Windows XP Professional Setup: Partition map with 2 partitions, one 5GB and one 100MB">
         <p>
-            Now, install to the larger partition. Format it as NTFS on English editions of Windows 2003 or XP SP3, and FAT32 on all other versions. Go through the installation process as normal. This should only take a few minutes unless your host system is as old as the Apple TV or you type your <a href="https://www.fckgw.net/" target="_blank">product key</a> in wrong 37 times. 
+            Now, install to the larger partition. Format it as NTFS on English editions of Windows 2003 or XP SP3, and FAT32 on all other versions. Go through the installation process as normal. This should only take a few minutes unless your host system is as old as the Apple TV or you type your <a href="https://www.fckgw.net/" target="_blank">product key</a> in wrong 37 times. It's also important to set an admin password here.
         </p>
         <p>
-            Once Windows is installed, <b>we need to make sure that it goes to the login screen at startup (unless you're running Windows 2000 or 2003, where auto-login isn't enabled).</b> This is a very important step to avoid issues with USB peripherals later on. This can be be achieved by either setting a password for your user in Control Panel, or changing the login settings so that Windows asks you what user to log in as every time it boots. 
+            Once Windows is installed, <b>we need to make sure that it goes to the login screen at startup (unless you're running Windows 2003, where auto-login shouldn't be enabled by default).</b> This is a very important step to avoid issues with USB peripherals later on. On Windows 2000, ensure that you select "Users must enter a user name and password to use this computer." This can be be achieved by either setting a password for your user in Control Panel, or changing the login settings so that Windows asks you what user to log in as every time it boots. 
         </p>
         <p>
             Next, navigate to File Explorer and format the extra partition we created as FAT32 (use Quick Format). This will act as the EFI system partition and is where the bootloader will be stored. Once you do that, if you are using QEMU, shut down the system.
@@ -93,10 +93,7 @@
             Back on the host system's command line, we now need to swap out the CDROM from the Windows ISO to the NTATV Drivers and Utilities ISO. We also need to tell QEMU to boot from the hard drive instead of the CD-ROM. The QEMU parameters should look like this:
         </p>
         <p>
-            <code>qemu-system-i386 -enable-kvm -m 2048 -hda appletv_windows.img -cdrom /path/to/ntatv_drivers_and_utils_X.X.iso -boot c -device usb-ehci,id=ehci -device usb-kbd</code>
-        </p>
-        <p>
-            If you're installing Windows 2000, just insert <code>ntatv_drivers_and_utils_X.X.iso</code> into the drive in VirtualBox. No need to shut down.
+            <code>qemu-system-i386 -enable-kvm -m 2048 -hda appletv_windows.img -cdrom /path/to/ntatv_drivers_and_utils_X.X.iso -boot c -device piix3-usb-uhci,id=uhci</code>
         </p>
         <p>
             Open the NTATV Utils CD in Explorer and double click on the <code>DiskAndVideoFix</code> registration entry. When prompted click "Yes" and you should see "Information from DiskAndVideoFix.reg has been entered into the registry". This allows Windows to boot on hardware other than the hardware it was originally installed on, and forces the video driver to autoload.
@@ -117,18 +114,18 @@
         <p>
             When asked about driver signing, select "Continue Anyway". The Hardware Update Wizard will either state that "This device cannot start. (Code 10)." or ask for a restart. In either case, shut down the VM.
         </p>
-        <img src="img/CannotStartGenFB.png" alt="GenFB ">
+        <img src="img/CannotStartGenFB.png" alt="GenFB cannot start">
         <p>
-            If you are installing Windows 2000, you will need to convert the VDI image from VirtualBox to a raw IMG file. Use the following command for this:
+            If you are installing in VirtualBox for one reason or another, you will need to convert the VDI image from VirtualBox to a raw IMG file. Use the following command for this:
         </p>
         <p>
-            <code>VBoxManage internalcommands converttoraw /path/to/Windows2000.vdi appletv_windows.img</code>
+            <code>VBoxManage internalcommands converttoraw /path/to/Windows.vdi appletv_windows.img</code>
         </p>
         <p>
             Now, restore the <code>appletv_windows.img</code> to an IDE hard disk using a tool of your choice (<code>dd</code>, GNOME Disks, Rufus, Etcher, etc).
         </p>
         <p>
-            <b>Important:</b> If you are installing Windows 2000, you will also need to extract <code>HALAACPI.DL_</code> <b>(NOT <code>HALACPI.DL_</code>, THESE FILES HAVE SIMILAR NAMES BUT THE LATTER WILL RESULT IN AN INFINITE HANG!)</b> to <code>C:\WINNT\system32\hal.dll</code>, replacing the existing file. If you're installing Windows XP/2003, disregard this; the right HAL is already installed.
+            <b>Important:</b> If you are installing Windows 2000 in VirtualBox, you will also need to extract <code>HALAACPI.DL_</code> <b>(NOT <code>HALACPI.DL_</code>, THESE FILES HAVE SIMILAR NAMES BUT THE LATTER WILL RESULT IN AN INFINITE HANG!)</b> to <code>C:\WINNT\system32\hal.dll</code>, replacing the existing file. If you're installing Windows XP/2003 or using QEMU for any version, disregard this; the right HAL is already installed.
         </p>
         <p>
             Congratulations! If you did everything right, you successfully set up Windows on your Apple TV! Give yourself a pat on the back. Or a cookie. Or something. Do whatever you want, I'm not your dad. Now it's time to test it out. Unload the hive and disconnect the drive as before, then put it back into the Apple TV. Don't close it up just yet; if you screwed something up, it's better to find out before looking for your screwdriver for forty minutes (it's under the bottom case!). Plug in the Apple TV, wait a few minutes, and cross your fingers that nothing broke. If all goes well, you should get to the login screen a few minutes later! USB devices might take as much as 3 minutes to start working, so you won't be able to login immediately. Rest assured that the spinning of the hard drive is indicative of progress and that this is only an issue during the first boot.
@@ -184,21 +181,34 @@
         </p>
         <hr>
         <a id="troubleshooting"><h2>Troubleshooting</h2></a>
+        <a id="w2k_installer_freeze">Windows 2000 installation freezes during hardware detecton or crashes</a>
+        <p>
+            You can try a few things:
+            <ul>
+                <li>Reset QEMU and try installing again</li>
+                <li>Add <code>-win2k-hack</code> to the QEMU arguments (this shouldn't be required but sometimes solves issues) and try installing again</li>
+                <li>Try installing in VirtualBox</li>
+            </ul>
+        </p>
         <a id="blank_screen_after_windows_boot_logo"><h3><code>0x0000007B</code> BSOD</h3></a>
         <p>
             Ensure that you ran <code>DiskAndVideoFix.reg</code>.
         </p>
         <a id="cannot_load_system_alt_hive"><h3><code>Cannot load SYSTEM.ALT hive!</code> in FreeLoader</h3></a>
         <p>
-            This is due to problems with FreeLoader's NTFS driver. To fix this, install Windows onto a FAT32 partition, convert the partition to NTFS by typing <code>convert C: /fs:ntfs</code> in the Command Prompt, then rebooting. Why this works I have no idea, but it has never failed me.
+            This is due to problems with FreeLoader's NTFS driver. To fix this, install Windows onto a FAT32 partition, convert the partition to NTFS by typing <code>convert C: /fs:ntfs</code> in the Command Prompt, then rebooting. Note that the conversion status screen will not appear when the NVIDIA driver is installed; the system will auto-reboot after a minute or so on all but 2000 (on that OS ensure you wait a few minutes from the screen going black before hard rebooting the TV). Why this works I have no idea, but it has never failed me.
         </p>
         <a id="freezing_during_boot"><h3>Freezing during boot</h3></a>
         <p>
             This is either due to issues with IDE SSD adapters or a failing HDD. Try a working IDE HDD.
         </p>
-        <a id="NoUSB"><h3>No USB</h3></a>
+        <a id="no_usb"><h3>No USB</h3></a>
         <p>
-            Either you didn't set Windows to go to the login screen automatically or there's some incompatibility with Windows and the Apple TV's USB controller (this is a reported issue for some people on some Windows 2000 builds). Try unplugging and replugging the keyboard and mouse a few times or using a generic PC keyboard/mouse.
+            Either you didn't set Windows to go to the login screen automatically or there's some incompatibility with Windows and the Apple TV's USB controller (this is a reported issue for some people on some Windows 2000 builds). Try unplugging and replugging the keyboard and mouse a few times and/or using a generic PC keyboard/mouse.
+        </p>
+        <a id="hang_on_loading_drivers_after_update"><h3>Windows 2000 hangs after some updates are installed</h3></a>
+        <p>
+            Replace <code>freeldr.sys</code> with <a href="w2k_hack/freeldr.sys" target="_blank">this one</a>. This is caused by the <a href="https://github.com/DistroHopper39B/reactos/blob/0c7ab03282cdd1619d4dd4aa898bfd6b13708ff4/boot/freeldr/freeldr/arch/i386/appletv/appletvhw.c#L315" target="_blank">Windows version detection code</a> erroneously passing in the wrong ACPI tables to Windows 2000. 
         </p>
     </body>
 </html>
