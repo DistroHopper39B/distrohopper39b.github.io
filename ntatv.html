@@ -222,8 +222,6 @@
         <hr>
         <a id="known-issues"><h2>Known Issues</h2></a>
         <ul>
-            <li>With the NVIDIA driver installed, if the display goes into standby, unplugging and re-plugging the HDMI cable is required to get a picture. To avoid this issue, set "Turn off monitor" to "Never" in the Power Options Control Panel.</li>
-            <li>Component video doesn't work correctly with the NVIDIA driver. I don't have a component-enabled monitor to test with, but apparently, only the blue component channel is displayed in some cases, and attempting to use both HDMI and component video at the same time breaks the system. You could try it, but it's unlikely to work properly.</li>
             <li>The FreeLoader (ReactOS bootloader we're using to boot XP) NTFS driver is very buggy, only properly supporting NTFS partitions formatted in English copies of Windows XP SP3 or Windows 2003. If you are using any other version <b>(such as Windows 2000)</b>, or get errors like <code>Could not load SYSTEM.ALT hive!</code>, try installing Windows on a FAT32 partition and converting to NTFS once the system is installed (this generally works for whatever reason)</li>
             <li>FreeLoader's IDE driver is somewhat buggy, especially on SATA adapters. If you experience freezes during the boot process it is likely because your hard drive is incompatible with FreeLoader as of now.</li>
             <li>RDP connections fail, reason why is unknown buy may have to do with the NVIDIA driver.</li>
