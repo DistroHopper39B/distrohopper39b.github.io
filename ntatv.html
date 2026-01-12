@@ -224,7 +224,6 @@
         <hr>
         <a id="known-issues"><h2>Known Issues</h2></a>
         <ul>
-            <li>The FreeLoader (ReactOS bootloader we're using to boot XP) NTFS driver is very buggy, only properly supporting NTFS partitions formatted in English copies of Windows XP SP3 or Windows 2003. If you are using any other version <b>(such as Windows 2000)</b>, or get errors like <code>Could not load SYSTEM.ALT hive!</code>, try installing Windows on a FAT32 partition and converting to NTFS once the system is installed (this generally works for whatever reason)</li>
             <li>FreeLoader's IDE driver is somewhat buggy, especially on SATA adapters. If you experience freezes during the boot process it is likely because your hard drive is incompatible with FreeLoader as of now.</li>
             <li>RDP connections fail, reason why is unknown buy may have to do with the NVIDIA driver.</li>
         </ul>
@@ -267,6 +266,13 @@
         </p>
         <hr>
         <a id="changelog"><h2>Changelog</h2></a>
+        <h3>v1.0</h3>
+        <ul>
+            <li>FreeLoader NTFS issues should be solved, thanks <a href="https://github.com/iLauncherDev" target="_blank">iLauncherDev</a> (<a href="https://github.com/reactos/reactos/pull/8103" target="_blank">reactos#8103</a>) </li>
+            <li>Drivers packaged into the NTATV ISO for an easier installation experience</li>
+            <li>Updated FreeLoader codebase</li>
+        </ul>
+        To update from a previous release, replace <code>freeldr.sys</code> with the new one in the boot partition.
         <h3>v0.5</h3>
         <ul>
             <li>Massively simplified Windows install process:</li>

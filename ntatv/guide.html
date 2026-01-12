@@ -75,20 +75,22 @@
         <p>
             Once you get to the partition list, instead of pressing Enter like usual, press C to create a new partition. Make your new partition at least 20MB smaller than the full size of the disk; I usually leave a bit more room than that.
         </p>
-        <img src="img/QEMU_001.png" alt="Windows XP Professional Setup: New Partition">
+        <img src="img/WinXP_TextSetup_1.png" alt="Windows XP Professional Setup: New Partition">
         <p>
             Then, create a partition on the remaining space. In the end, your partition map should look something like this:
         </p>
-        <img src="img/QEMU_002.png" alt="Windows XP Professional Setup: Partition map with 2 partitions, one 5GB and one 100MB">
+        <img src="img/WinXP_TextSetup_2.png" alt="Windows XP Professional Setup: Partition map with 2 partitions, one 5GB and one 100MB">
         <p>
-            Now, install to the larger partition. Format it as NTFS on English editions of Windows 2003 or XP SP3, and FAT32 on all other versions. Go through the installation process as normal. This should only take a few minutes unless your host system is as old as the Apple TV or you type your <a href="https://www.fckgw.net/" target="_blank">product key</a> in wrong 37 times. It's also important to set an admin password here.
+            Now, install to the larger partition. Format it as NTFS and go through the installation process as normal. This should only take a few minutes unless your host system is as old as the Apple TV or you type your <a href="https://www.fckgw.net/" target="_blank">product key</a> in wrong 37 times. It's also important to set an admin password here.
         </p>
         <p>
             Once Windows is installed, <b>we need to make sure that it goes to the login screen at startup (unless you're running Windows 2003, where auto-login shouldn't be enabled by default).</b> This is a very important step to avoid issues with USB peripherals later on. On Windows 2000, ensure that you select "Users must enter a user name and password to use this computer." This can be be achieved by either setting a password for your user in Control Panel, or changing the login settings so that Windows asks you what user to log in as every time it boots. 
         </p>
         <p>
-            Next, navigate to File Explorer and format the extra partition we created as FAT32 (use Quick Format). This will act as the EFI system partition and is where the bootloader will be stored. Once you do that, if you are using QEMU, shut down the system.
+            Next, navigate to File Explorer and format the extra partition we created as FAT32 (use Quick Format). This will act as the EFI system partition and is where the bootloader will be stored.
         </p>
+        <img src="img/FormatLocalDisk.png" alt="Format dialog">
+        <p>After this, shut down the system.</p>
         <p>
             Back on the host system's command line, we now need to swap out the CDROM from the Windows ISO to the NTATV Drivers and Utilities ISO. We also need to tell QEMU to boot from the hard drive instead of the CD-ROM. The QEMU parameters should look like this:
         </p>
@@ -102,15 +104,19 @@
         <p>
             Drag the contents of the <code>Boot</code> folder to the FAT32 partition we just created.
         </p>
-        <img src="img/QEMU_023.png" alt="E:\ drive with the contents of the Boot folder">
+        <img src="img/BootFolderE.png" alt="E:\ drive with the contents of the Boot folder">
         <p>
             Drag <code>freeldr.ini</code> to the root of the <code>C:</code> drive. For Windows 2000, drag <code>freeldr_Windows2000.ini</code> there and rename it to <code>freeldr.ini</code>. In order to rename it, you will need to unlock the file by unchecking "Read-only" in the properties menu after dragging it to the <code>C:</code> drive.
         </p>
-        <img src="img/QEMU_011.png" alt="Dragging freeldr.ini to the root of the C: drive.">
+        <img src="img/DraggingFreeldrIniToC.png" alt="Dragging freeldr.ini to the root of the C: drive.">
         <p>
-            Now it's time to set up the video driver. Open the Device Manager by typing <code>devmgmt.msc</code> into the Run box, right click on "Video Controller (VGA Compatible)", and select "Update Driver...". Select "No, not this time" when asked about Windows Update, then "Install from a list or specific location (Advanced)", then include the NTATV Utils CD's <code>Video</code> directory in the search.
+            Drag the <code>Drivers</code> folder to the root of the <code>C:</code> drive.
         </p>
-        <img src="img/QEMU_006.png" alt="Hardware Update Wizard">
+        <img src="img/DraggingDriversFolder.png" alt="Dragging drivers to the root of the C: drive.">
+        <p>
+            Now it's time to set up the video driver. Open the Device Manager by typing <code>devmgmt.msc</code> into the Run box, right click on "Video Controller (VGA Compatible)", and select "Update Driver..." on Windows XP or "Properties -> Reinstall Driver..." on Windows 2000. Select "No, not this time" when asked about Windows Update, then "Install from a list or specific location (Advanced)", check "Include this location in the search", and choose the path <code>C:\Drivers\GenericFramebuffer</code>.
+        </p>
+        <img src="img/BrowseToGenericFramebuffer.png" alt="Hardware Update Wizard">
         <p>
             When asked about driver signing, select "Continue Anyway". The Hardware Update Wizard will either state that "This device cannot start. (Code 10)." or ask for a restart. In either case, shut down the VM.
         </p>
@@ -131,37 +137,42 @@
             Congratulations! If you did everything right, you successfully set up Windows on your Apple TV! Give yourself a pat on the back. Or a cookie. Or something. Do whatever you want, I'm not your dad. Now it's time to test it out. Unload the hive and disconnect the drive as before, then put it back into the Apple TV. Don't close it up just yet; if you screwed something up, it's better to find out before looking for your screwdriver for forty minutes (it's under the bottom case!). Plug in the Apple TV, wait a few minutes, and cross your fingers that nothing broke. If all goes well, you should get to the login screen a few minutes later! USB devices might take as much as 3 minutes to start working, so you won't be able to login immediately. Rest assured that the spinning of the hard drive is indicative of progress and that this is only an issue during the first boot.
         </p>
         <p>
-            Immediately upon logging in, you will be prompted with about eight "Found New Hardware" wizards (one after another) for the various hardware Windows found. For all but one of the wizards, click through this, telling Windows to automatically search for a driver without connecting to Windows Update, and ensuring that "Don't prompt me again to install this software" is checked at the end. The wizard for installation of the "Generic Framebuffer Miniport Adapter" will ask you where <code>genfbvmp.sys</code> and <code>bootvid.dll</code> are; you must manually point it to <code>C:\WINDOWS\system32\drivers</code> (<code>C:\WINNT\system32\drivers</code> on 2000) for <code>genfbvmp.sys</code> and <code>C:\WINDOWS or WINNT\system32</code> for <code>bootvid.dll</code>. 
+            Immediately upon logging in, you will be prompted with about eight "Found New Hardware" wizards (one after another) for the various hardware Windows found. Click through these wizards, telling Windows to automatically search for a driver without connecting to Windows Update, and ensuring that "Don't prompt me again to install this software" is checked at the end.
         </p>
         <hr>
         <a id="installing_drivers"><h2>Installing Drivers</h2></a>
         <a id="wifi"><h3>Wi-Fi</h3></a>
         <p>
-            Download the Boot Camp 3.1.1 drivers from <a href="https://archive.org/details/boot-camp-3.1.1">here</a> and copy them to a USB drive. <b>Do NOT run <code>setup.exe</code></b>; instead, navigate to <code>Boot Camp\Drivers\Broadcom</code> and run <code>BroadcomNetworkAdapterXP.exe</code>. On later editions of Windows XP, you should be able to connect to Wi-Fi through the built-in Wi-Fi utilities without issue, but on Windows 2000 and likely earlier XP editions too, you'll need to do a few more things:
+            On Windows XP, run <code>C:\Drivers\BroadcomNetworkAdapter\DPInst.exe</code>.  On Windows 2000 and likely earlier XP editions too, you'll need to do a few more things:
             <ol>
-                <li>Run <code>BroadcomNetworkAdapterXP.exe</code> as normal</li>
-                <li>Install <a href="https://winworldpc.com/product/internet-explorer/ie-6" target="_blank">Internet Explorer 6</a> (IE 5.5 should work too)</li>
-                <li>Install <a href="web.archive.org/web/20010608064323/http://mssjus.www.conxion.com/download/vc60pro/update/1/w9xnt4/en-us/vc6redistsetup_enu.exe" target="_blank">Visual C++ 6 redistributable</a> (direct download link)</li>
-                <li>Install <a href="http://web.archive.org/web/20071010213632/http://www.boingo.com/downloads/BW1201/boingoinstaller.exe">this version of Boingo Wireless Software</a> (direct download link)</li>
+                <li>Install the WiFi drivers via Device Manager: </li>
+                <ol>
+                    <li>Open Device Manager</li>
+                    <li>Right click on "Network Controller" -> Properties -> Reinstall Driver</li>
+                    <li>When prompted, tell Device Manager to search in <code>C:\Drivers\BroadcomNetworkAdapter</code> for drivers</li>
+                </ol>
+                <li>Install Internet Explorer 6 by running <code>C:\Drivers\Windows2000\IE6\ie6setup.exe</code></li>
+                <li>Install Visual C++ 6 redistributable by navigating to <code>C:\Drivers\Windows2000\vcredist</code>, then right clicking on <code>vcredist.inf</code> and selecting <code>Install</code></li>
+                <li>Install Boingo Wireless Software by running <code>C:\Drivers\Windows2000\boingoinstaller</code></li>
             </ol>
             It should then be possible to setup Wi-Fi (including 5GHz and WPA2) in Boingo. However, Boingo in my experience is extremely buggy and freezes frequently (Wi-Fi connections seem to be uninturrupted).
         </p>
         <a id="sound"><h3>Sound</h3></a>
         <p>
-            Run <code>Boot Camp\Drivers\RealTek\RealtekSetupXP.exe</code> from the Boot Camp 3.1.1 bundle. RCA audio plays at an extremely (unusably) low volume, but optical audio works fine.
+            Run <code>C:\Drivers\RealtekSetupXP.exe</code> from the Boot Camp 3.1.1 bundle. RCA audio plays at an extremely (unusably) low volume, but optical audio works fine.
         </p>
         <p>
             The Realtek sound driver utility, an almost useless tool for most people, hogs over 20MB of RAM at idle. I'd recommend disabling it as a startup item in <code>msconfig</code> (or, in Windows 2000, deleting <code>RTHDCPL</code> from <code>HKLM\Software\Microsoft\Windows\CurrentVersion\Run</code>) to free up some RAM.
         </p>
         <a id="nvidia_driver"><h3>NVIDIA Graphics</h3></a>
         <p>
-            Use my patched NVIDIA driver, which can be acquired from the <a href="https://github.com/DistroHopper39B/NTATV/releases" target="_blank">releases page</a>. It's a 7-Zip self-extracting archive; run the EXE, extract it to a location of your choice, and run <code>setup.exe</code>. Reboot, and you should have accelerated graphics!
+            Run <code>C:\Drivers\NVIDIA_179.48_AppleTV.exe</code>, follow the installation prompts, and reboot.
         </p>
         <p>
             There are a few post-install quirks and considerations to keep in mind:
         </p>
         <ul>
-            <li>Your monitor might enter power-saving mode and take as many as 30-40 seconds to turn back on.</li>
+            <li>Your monitor might take as many as 30-40 seconds to turn back on once the boot screen disappears, especially on Windows 2000.</li>
             <li>On Windows 2000, you will get an <code>nwiz.exe</code> DLL error after rebooting. To avoid this issue, delete the <code>nwiz</code> entry in <code>HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run</code>.</li>
             <li>After the first reboot, the Display Settings window will erroneously claim that the graphics driver is not working. A second reboot seems to fix that.</li>
             <li>By default, the NVIDIA card will steal 64MB of your system RAM for itself through something known as "TurboCache". Unless you really need 128MB of VRAM, I'd recommend disabling this due to the extremely low system RAM in the Apple TV. Sadly, it doesn't seem like it's possible to disable TurboCache on Windows 2000, but on Windows XP, it can be disabled; see <a href="https://www.techsupportforum.com/threads/how-to-disable-turbocache.204963/?u=286878&sortby=newest" target="_blank">this ancient forum post</a> for instructions. <i>Note: a small percentage of particularly early Apple TVs actually have 128MB VRAM on board from the factory! If you have an Apple TV with that much VRAM, consider yourself lucky. TurboCache doesn't seem to be enabled on those units unless your Apple TV has been upgraded to 512MB RAM.</i></li>
@@ -200,7 +211,7 @@
         </p>
         <a id="cannot_load_system_alt_hive"><h3><code>Cannot load SYSTEM.ALT hive!</code> in FreeLoader</h3></a>
         <p>
-            This is due to problems with FreeLoader's NTFS driver. To fix this, install Windows onto a FAT32 partition, convert the partition to NTFS by typing <code>convert C: /fs:ntfs</code> in the Command Prompt, then rebooting. Note that the conversion status screen will not appear when the NVIDIA driver is installed; the system will auto-reboot after a minute or so on all but 2000 (on that OS ensure you wait a few minutes from the screen going black before hard rebooting the TV). Why this works I have no idea, but it has never failed me.
+            This shouldn't happen anymore with v1.0, but in case it does, it's a result of issues with FreeLoader's NTFS driver. To fix this, install Windows onto a FAT32 partition, convert the partition to NTFS by typing <code>convert C: /fs:ntfs</code> in the Command Prompt, then rebooting. Note that the conversion status screen will not appear when the NVIDIA driver is installed; the system will auto-reboot after a minute or so on all but 2000 (on that OS ensure you wait a few minutes from the screen going black before hard rebooting the TV). Why this works I have no idea, but it has never failed me.
         </p>
         <a id="freezing_during_boot"><h3>Freezing during boot</h3></a>
         <p>
