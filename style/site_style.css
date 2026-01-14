@@ -1,0 +1,87 @@
+@font-face {
+    font-family: "Source Code Pro";
+    src: 
+        local("Source Code Pro"),
+        url("fonts/ttf/SourceCodePro-Regular.ttf") format("truetype"),
+        url("fonts/woff2/SourceCodePro-Regular.ttf.woff2") format("woff2");
+}
+
+@font-face {
+    font-family: "Lato";
+    src: 
+        url("fonts/ttf/Lato-Regular.ttf") format("truetype"),
+        url("fonts/woff2/Lato-Regular.woff2") format("woff2");
+}
+
+@media (prefers-color-scheme: dark) {
+    html {
+        background-color: #0F0F0F;
+        color: #FFFFFF;
+    }
+
+    table, th, td {
+        border: 1px solid white;
+    }
+
+    .unsupported {
+        background-color: #404040;
+    }
+
+    a:link {
+        color: violet;
+    }
+
+    a:visited {
+        color: purple;
+    }
+}
+
+@media (prefers-color-scheme: light) {
+    html {
+        background-color: white;
+        color: black;
+    }
+
+    table, th, td {
+        border: 1px solid black;
+    }
+
+    .unsupported {
+        background-color: lightgrey;
+    }
+
+    a:link {
+        color: purple;
+    }
+
+    a:visited {
+        color: violet;
+    }
+}
+
+body {
+    font-family: "Lato", sans-serif;
+    font-size: 16px;
+}
+
+code {
+    font-family: "Source Code Pro", monospace;
+    font-size: 16px;
+}
+
+table, th, td {
+    border-collapse: collapse;
+    text-align: center;
+    padding: 5px;
+}
+
+#table-wrapper {
+    position: relative;
+}
+
+#table-scroll {
+    overflow: auto;
+}
+
+
+
