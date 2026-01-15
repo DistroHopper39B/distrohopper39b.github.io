@@ -72,11 +72,19 @@
         <p>
             Once you get to the partition list, instead of pressing Enter like usual, press C to create a new partition. Make your new partition at least 20MB smaller than the full size of the disk; I usually leave a bit more room than that.
         </p>
-        <img src="img/WinXP_TextSetup_1.png" alt="Windows XP Professional Setup: New Partition">
+        <div id="wrapper">
+            <div id="scroll">
+                <img src="img/WinXP_TextSetup_1.png" alt="Windows XP Professional Setup: New Partition">
+            </div>
+        </div>
         <p>
             Then, create a partition on the remaining space. In the end, your partition map should look something like this:
         </p>
-        <img src="img/WinXP_TextSetup_2.png" alt="Windows XP Professional Setup: Partition map with 2 partitions, one 5GB and one 100MB">
+        <div id="wrapper">
+            <div id="scroll">
+                <img src="img/WinXP_TextSetup_2.png" alt="Windows XP Professional Setup: Partition map with 2 partitions, one 5GB and one 100MB">
+            </div>
+        </div>
         <p>
             Now, install to the larger partition. Format it as NTFS and go through the installation process as normal. This should only take a few minutes unless your host system is as old as the Apple TV or you type your <a href="https://www.fckgw.net/" target="_blank">product key</a> in wrong 37 times. It's also important to set an admin password here.
         </p>
@@ -86,7 +94,11 @@
         <p>
             Next, navigate to File Explorer and format the extra partition we created as FAT32 (use Quick Format). This will act as the EFI system partition and is where the bootloader will be stored.
         </p>
-        <img src="img/FormatLocalDisk.png" alt="Format dialog">
+        <div id="wrapper">
+            <div id="scroll">
+                <img src="img/FormatLocalDisk.png" alt="Format dialog">
+            </div>
+        </div>
         <p>After this, shut down the system.</p>
         <p>
             Back on the host system's command line, we now need to swap out the CDROM from the Windows ISO to the NTATV Drivers and Utilities ISO. We also need to tell QEMU to boot from the hard drive instead of the CD-ROM. The QEMU parameters should look like this:
@@ -97,27 +109,51 @@
         <p>
             Open the NTATV Utils CD in Explorer and double click on the <code>DiskAndVideoFix</code> registration entry. When prompted click "Yes" and you should see "Information from DiskAndVideoFix.reg has been entered into the registry". This allows Windows to boot on hardware other than the hardware it was originally installed on, and forces the video driver to autoload.
         </p>
-        <img src="img/DiskAndVideoFix.png" alt="Are you sure you want to add the information in D:\DiskAndVideoFix.reg to the registry?">
+        <div id="wrapper">
+            <div id="scroll">
+                <img src="img/DiskAndVideoFix.png" alt="Are you sure you want to add the information in D:\DiskAndVideoFix.reg to the registry?">
+            </div>
+        </div>
         <p>
             Drag the contents of the <code>Boot</code> folder to the FAT32 partition we just created.
         </p>
-        <img src="img/BootFolderE.png" alt="E:\ drive with the contents of the Boot folder">
+        <div id="wrapper">
+            <div id="scroll">
+                 <img src="img/BootFolderE.png" alt="E:\ drive with the contents of the Boot folder">
+            </div>
+        </div>
         <p>
             Drag <code>freeldr.ini</code> to the root of the <code>C:</code> drive. For Windows 2000, drag <code>freeldr_Windows2000.ini</code> there and rename it to <code>freeldr.ini</code>. In order to rename it, you will need to unlock the file by unchecking "Read-only" in the properties menu after dragging it to the <code>C:</code> drive.
         </p>
-        <img src="img/DraggingFreeldrIniToC.png" alt="Dragging freeldr.ini to the root of the C: drive.">
+        <div id="wrapper">
+            <div id="scroll">
+                <img src="img/DraggingFreeldrIniToC.png" alt="Dragging freeldr.ini to the root of the C: drive.">
+            </div>
+        </div>
         <p>
             Drag the <code>Drivers</code> folder to the root of the <code>C:</code> drive.
         </p>
-        <img src="img/DraggingDriversFolder.png" alt="Dragging drivers to the root of the C: drive.">
+        <div id="wrapper">
+            <div id="scroll">
+                <img src="img/DraggingDriversFolder.png" alt="Dragging drivers to the root of the C: drive.">
+            </div>
+        </div>
         <p>
             Now it's time to set up the video driver. Open the Device Manager by typing <code>devmgmt.msc</code> into the Run box, right click on "Video Controller (VGA Compatible)", and select "Update Driver..." on Windows XP or "Properties -> Reinstall Driver..." on Windows 2000. Select "No, not this time" when asked about Windows Update, then "Install from a list or specific location (Advanced)", check "Include this location in the search", and choose the path <code>C:\Drivers\GenericFramebuffer</code>.
         </p>
-        <img src="img/BrowseToGenericFramebuffer.png" alt="Hardware Update Wizard">
+        <div id="wrapper">
+            <div id="scroll">
+                <img src="img/BrowseToGenericFramebuffer.png" alt="Hardware Update Wizard">
+            </div>
+        </div>
         <p>
             When asked about driver signing, select "Continue Anyway". The Hardware Update Wizard will either state that "This device cannot start. (Code 10)." or ask for a restart. In either case, shut down the VM.
         </p>
-        <img src="img/CannotStartGenFB.png" alt="GenFB cannot start">
+        <div id="wrapper">
+            <div id="scroll">
+                <img src="img/CannotStartGenFB.png" alt="GenFB cannot start">
+            </div>
+        </div>
         <p>
             If you are installing in VirtualBox for one reason or another, you will need to convert the VDI image from VirtualBox to a raw IMG file. Use the following command for this:
         </p>
