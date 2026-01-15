@@ -2,15 +2,15 @@
     font-family: "Source Code Pro";
     src: 
         local("Source Code Pro"),
-        url("fonts/ttf/SourceCodePro-Regular.ttf") format("truetype"),
-        url("fonts/woff2/SourceCodePro-Regular.ttf.woff2") format("woff2");
+        url("../fonts/ttf/SourceCodePro-Regular.ttf") format("truetype"),
+        url("../fonts/woff2/SourceCodePro-Regular.ttf.woff2") format("woff2");
 }
 
 @font-face {
     font-family: "Lato";
     src: 
-        url("fonts/ttf/Lato-Regular.ttf") format("truetype"),
-        url("fonts/woff2/Lato-Regular.woff2") format("woff2");
+        url("../fonts/ttf/Lato-Regular.ttf") format("truetype"),
+        url("../fonts/woff2/Lato-Regular.woff2") format("woff2");
 }
 
 @media (prefers-color-scheme: dark) {
