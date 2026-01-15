@@ -45,6 +45,27 @@
         url("../fonts/woff2/Lato-BoldItalic.woff2") format("woff2");
 }
 
+html {
+    background-color: white;
+    color: black;
+}
+
+table, th, td {
+    border: 1px solid black;
+}
+
+.unsupported {
+    background-color: lightgrey;
+}
+
+a:link {
+    color: purple;
+}
+
+a:visited {
+    color: violet;
+}
+
 @media (prefers-color-scheme: dark) {
     html {
         background-color: #0F0F0F;
@@ -65,29 +86,6 @@
 
     a:visited {
         color: purple;
-    }
-}
-
-@media (prefers-color-scheme: light) {
-    html {
-        background-color: white;
-        color: black;
-    }
-
-    table, th, td {
-        border: 1px solid black;
-    }
-
-    .unsupported {
-        background-color: lightgrey;
-    }
-
-    a:link {
-        color: purple;
-    }
-
-    a:visited {
-        color: violet;
     }
 }
 
