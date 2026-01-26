@@ -57,7 +57,7 @@
                             <td>RCA audio</td>
                             <td>Optical audio</td>
                             <td>HDMI audio</td>
-                            <td>Remote</td>
+                            <td>Remote/LED control</td>
                             <td>Software Reboot</td>
                         </tr>
                     </thead>
@@ -95,7 +95,7 @@
                             <td>Partially Working<sup>3</sup></td> <!-- RCA audio -->
                             <td>Working</td> <!-- Optical audio -->
                             <td>Broken</td> <!-- HDMI audio -->
-                            <td>Broken</td> <!-- Remote -->
+                            <td>Partially Working<sup>9</sup></td> <!-- Remote -->
                             <td>Working</td> <!-- Software Reboot -->
                         </tr>
                         <tr>
@@ -111,7 +111,7 @@
                             <td>Untested</td> <!-- RCA audio -->
                             <td>Untested</td> <!-- Optical audio -->
                             <td>Untested</td> <!-- HDMI audio -->
-                            <td>Broken</td> <!-- Remote -->
+                            <td>Untested</td> <!-- Remote -->
                             <td>Untested</td> <!-- Software Reboot -->
                         </tr>
                         <tr>
@@ -127,7 +127,7 @@
                             <td>Unknown<sup>4</sup></td> <!-- RCA audio -->
                             <td>Unknown<sup>4</sup></td> <!-- Optical audio -->
                             <td>Unknown<sup>4</sup></td> <!-- HDMI audio -->
-                            <td>Broken</td> <!-- Remote -->
+                            <td>Unknown<sup>4</sup></td> <!-- Remote -->
                             <td>Unknown<sup>4</sup></td> <!-- Software Reboot -->
                         </tr>
                         <tr class="unsupported">
@@ -147,7 +147,7 @@
                             <td>Partially Working<sup>3</sup></td> <!-- RCA audio -->
                             <td>Untested</td> <!-- Optical audio -->
                             <td>Broken</td> <!-- HDMI audio -->
-                            <td>Broken</td> <!-- Remote -->
+                            <td>Untested</td> <!-- Remote -->
                             <td>Working</td> <!-- Software Reboot -->
                         </tr>
                         <tr>
@@ -163,7 +163,7 @@
                             <td>Partially Working<sup>3</sup></td> <!-- RCA audio -->
                             <td>Untested</td> <!-- Optical audio -->
                             <td>Broken</td> <!-- HDMI audio -->
-                            <td>Broken</td> <!-- Remote -->
+                            <td>Untested</td> <!-- Remote -->
                             <td>Working</td> <!-- Software Reboot -->
                         </tr>
                         <tr class="unsupported">
@@ -183,7 +183,7 @@
                             <td>Broken<sup>5</sup></td> <!-- RCA audio -->
                             <td>Broken<sup>5</sup></td> <!-- Optical audio -->
                             <td>Broken<sup>5</sup></td> <!-- HDMI audio -->
-                            <td>Broken</td> <!-- Remote -->
+                            <td>Broken<sup>5</sup></td> <!-- Remote -->
                             <td>Broken<sup>5</sup></td> <!-- Software Reboot -->
                         </tr>
                     </tbody>
@@ -199,7 +199,8 @@
                 <li>Non-working PCI breaks nearly everything on ReactOS.</li>
                 <li>Functionally useless on Apple TVs with 256MB RAM. Upgrading to 512MB requires surface mount soldering skills and equipment as well as a firmware flasher. Windows 8 and later also use a completely different installation process involving <a href="https://github.com/DistroHopper39B/u-boot" target="_blank">a modified U-Boot</a> that I haven't documented because there are only a few dozen 512MB Apple TVs.</li>
                 <li>Must use the <a href="https://catalog.s.download.windowsupdate.com/msdownload/update/driver/drvs/2011/06/20254023_72141f37942172d7c548fd7cf01462dfaa24c8a5.cab" target="_blank">179.67 WDDM drivers</a> (direct download link) and install via Device Manager. In modern Windows 10, this driver is very unstable due to issues with old WDDM drivers; turn off transparency for the best experience.</li>
-                <li>May be a bit finicky; use the NVIDIA Control Panel's HDTV settings to adjust the monitor parameters. Attempting to extend the desktop across both an HDMI and Component monitor apparently bricks your install.</li>
+                <li>May be a bit finicky; use the NVIDIA Control Panel's HDTV settings to adjust the monitor parameters. Attempting to extend the desktop across both an HDMI and Component monitor bricks your install.</li>
+                <li>Early alpha driver available <a href="https://github.com/DistroHopper39B/NTATV_RemoteDrv" target="_blank">here</a> for Windows XP SP2 and later. This driver will not work on earlier versions due to limitations of the WinUSB library. This driver should work fine for LED control but its remote support is in early stages.</li>
             </ol>
         </p>
         <hr>
