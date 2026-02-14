@@ -226,23 +226,27 @@
         <hr>
         <a id="get-involved"><h2>Get Involved</h2></a>
         <p>
-            Contributions are welcome! I am particularly interested in having a more functional driver for the front LED and remote (I wrote a <a href="https://github.com/DistroHopper39B/NTATV_RemoteDrv" target="_blank">proof-of-concept driver</a> awhile back, but it never really worked as well as I hoped). If anyone with experience writing Windows drivers is interested in working on one, please let me know!
+            Contributions are welcome!
         <p>
             If you experience any issues with NTATV, please let me know through the <a href="https://github.com/DistroHopper39B/NTATV/issues">NTATV issue tracker</a>. Please refrain from reporting known issues like the ones below.
         </p>
-            My custom version of <a href="https://reactos.org/wiki/FreeLoader" target="_blank">FreeLoader</a> from <a href="https://reactos.org/" target="_blank">ReactOS</a> is located in <a href="https://github.com/DistroHopper39B/reactos/tree/AppleTV-Desktop" target="_blank">this repository</a>. To compile it (MSVC is not currently supported):
+            My custom version of <a href="https://reactos.org/wiki/FreeLoader" target="_blank">FreeLoader</a> from <a href="https://reactos.org/" target="_blank">ReactOS</a> is located in <a href="https://github.com/DistroHopper39B/reactos/tree/AppleTV-Desktop" target="_blank">this repository</a>. To compile it:
             <ul>
                 <li>Install <a href="https://reactos.org/wiki/Build_Environment" target="_blank">RosBE</a> (do not use the Ubuntu PPA)</li>
                 <li>Run RosBE (on Linux it's located in <code>/usr/local/RosBE/RosBE.sh</code>, on Windows it can be started from the Start menu)</li>
+                <ul>
+                    <li>You can also use MSVC, see <a href="https://reactos.org/wiki/Building_ReactOS" target="_blank">the ReactOS guide</a></li>
+                </ul>
                 <li>Clone my repository: <code>git clone https://github.com/DistroHopper39B/reactos -b AppleTV-Desktop</code></li>
                 <li><code>cd</code> to my repository</li>
-                <li>Run <code>./configure.sh</code> (Linux) or <code>configure.cmd</code> (Windows) <code>-DSARCH=appletv && cd output-MinGW-i386</code></li>
+                <li>Run <code>./configure.sh</code> (Linux) or <code>configure.cmd</code> (Windows) <code>-DSARCH=appletv</code></li>
+                <li>Run <code>cd output-MinGW-i386</code> (or <code>cd output-VS-i386</code> if you're building with MSVC)</li>
                 <li>Run <code>ninja freeldr</code></li>
             </ul>
             <code>freeldr.sys</code> will be located in <code>output-MinGW-i386/boot/freeldr/freeldr</code>.
         </p>
         <p>
-            For <code>bootvid.dll</code>, run <code>ninja bootvid</code>.
+            For <code>bootvid.dll</code>, run <code>ninja fbbvid</code>, then rename the generated <code>drivers/base/bootvid/fbbvid.dll</code> to <code>bootvid.dll</code>.
             <br />
             For <code>genfbvmp.sys</code>, run <code>ninja genfbvmp</code>.
         </p>
@@ -300,15 +304,29 @@
         <h3>v0.1</h3>
         <p>Initial release</p>
         
+        <hr>
+        <a id="file_listing"><h2>File listing</h2></a>
+        <ul>
+            <li><code>NTATV_UTILS/Boot/boot.efi</code>: Apple TV stock bootloader, from <a href="http://mesu.apple.com/data/OS/061-4632.2080414.gt5rW/2Z694-5428-3.dmg" target="_blank">Apple TV stock OS</a> (direct download to restore image)</li>
+            <li><code>NTATV_UTILS/Boot/freeldr.sys</code>: <a href="https://reactos.org/wiki/FreeLoader" target="_blank">FreeLoader</a> from <a href="https://reactos.org/" target="_blank">ReactOS</a>; Apple TV modifications by me, based on code from Xbox and UEFI ports</li>
+            <li><code>NTATV_UTILS/Boot/System/Library/Extensions/Dummy.kext</code>: <a href="https://github.com/DistroHopper39B/DummyKext" target="_blank">DummyKext</a> by me</li>
+            <li><code>NTATV_UTILS/DiskAndVideoFix.reg</code>: currentq's testing</li>
+            <li><code>NTATV_UTILS/Drivers/BroadcomNetworkAdatper/*</code>: Broadcom Wi-Fi driver v5.60.18.9 from Apple Boot Camp 3.1.1, extracted by me</li>
+            <li><code>NTATV_UTILS/Drivers/GenericFramebuffer/bootvid.dll</code>: fbbvid from <a href="https://reactos.org/" target="_blank">ReactOS</a>
+            <li><code>NTATV_UTILS/Drivers/GenericFramebuffer/genfbvmp.sys</code>: Generic framebuffer driver for <a href="https://reactos.org/" target="_blank">ReactOS</a> (not in upstream yet); written by <a href="https://github.com/DarkFire01" target="_blank">Justin Miller (The_DarkFire_)</a> and <a href="https://github.com/HBelusca" target="_blank">Hermès Bélusca-Maïto</a>; Windows modifications by me</li>
+            <li><code>NTATV_UTILS/Drivers/NVIDIA_179.48_AppleTV.exe</code>: <a href="https://www.nvidia.com/en-us/drivers/windows/179_48/geforce_notebook_winxp_179-48_beta/" target="_blank">NVIDIA 179.48 beta driver</a> with INF modifications and repack by me</li>
+            <li><code>NTATV_UTILS/Drivers/RealtekSetupXP.exe</code>: Realtek HD audio driver v5.10.0.5936 from Boot Camp 3.1.1</li>
+            <li><code>NTATV_UTILS/Drivers/Windows2000/boingoinstaller.exe</code>: <a href="http://web.archive.org/web/20071010213632/http://www.boingo.com/downloads/BW1201/boingoinstaller.exe" target="_blank">Boingo Wireless Software for Windows 2000</a> (direct download link)</li>
+            <li><code>NTATV_UTILS/Drivers/Windows2000/IE6</code>: Internet Explorer 6.00.2800.1106</li>
+            <li><code>NTATV_UTILS/Drivers/Windows2000/vcredist</code>: <a href="https://web.archive.org/web/20010608064323/http://mssjus.www.conxion.com/download/vc60pro/update/1/w9xnt4/en-us/vc6redistsetup_enu.exe" target="_blank">Visual C++ 6 redistributable for Windows 2000</a> (direct download link), extracted by me</li>
+            <li><code>NTATV_UTILS/freeldr.ini</code>: FreeLoader configuration file for Windows XP/2003 written by me</li>
+            <li><code>NTATV_UTILS/freeldr_Windows2000.ini</code>: FreeLoader configuration file for Windows 2000 written by me</li>
+        </ul>
         <a id="acknowledgements"><h2>Acknowledgements</h2></a>
         <ul>
-            <li><code>NTATV_UTILS/DiskAndVideoFix.reg</code>: currentq's testing</li>
-            <li><code>NTATV_UTILS/Boot/boot.efi</code>: Apple TV stock bootloader, from Apple TV stock OS</li>
-            <li><code>NTATV_UTILS/Boot/freeldr.sys</code>: <a href="https://reactos.org/wiki/FreeLoader" target="_blank">FreeLoader</a> from <a href="https://reactos.org/" target="_blank">ReactOS</a>; Apple TV modifications by me, UEFI modifications by <a href="https://github.com/DarkFire01" target="_blank">Justin Miller (The_DarkFire_)</a> and <a href="https://github.com/HBelusca" target="_blank">Hermès Bélusca-Maïto</a></li>
-            <li><code>NTATV_UTILS/Boot/System/Library/Extensions/Dummy.kext</code>: <a href="https://github.com/DistroHopper39B/DummyKext" target="_blank">DummyKext</a> by me</li>
-            <li><code>NTATV_UTILS/Video/bootvid.dll</code>: Bootvid from <a href="https://reactos.org/" target="_blank">ReactOS</a>; UEFI modifications by <a href="https://github.com/DarkFire01" target="_blank">Justin Miller (The_DarkFire_)</a> and <a href="https://github.com/HBelusca" target="_blank">Hermès Bélusca-Maïto</a>; slightly modified by me</li>
-            <li><code>NTATV_UTILS/Video/genfbvmp.sys</code>: Generic framebuffer driver for <a href="https://reactos.org/" target="_blank">ReactOS</a> (not in upstream yet); written by <a href="https://github.com/DarkFire01" target="_blank">Justin Miller (The_DarkFire_)</a> and <a href="https://github.com/HBelusca" target="_blank">Hermès Bélusca-Maïto</a>; Windows modifications by me</li>
             <li>Edgar (gimli) Hucek, James McKenzie of MythicBeasts, <a href="https://github.com/davilla" target="_blank">Scott Davilla</a>, and <a href="https://github.com/loop333" target="_blank">Dmitri (loop333)</a> for Apple TV Linux bringup</li>
+            <li><a href="https://github.com/DarkFire01" target="_blank">Justin Miller (The_DarkFire_)</a> and <a href="https://github.com/HBelusca" target="_blank">Hermès Bélusca-Maïto</a> for UEFI FreeLoader and graphics drivers (and for being immensely helpful throughout this whole project)</li>
+            <li><a href="https://mastodon.online/@guidol70/114043812917235617" target="_blank">Guido Lehwalder</a> and <a href="https://github.com/Piggyhero2006" target="_blank">Piggyhero2006</a> for NVIDIA driver support</li>
         </ul>
     </body>
 </html>
