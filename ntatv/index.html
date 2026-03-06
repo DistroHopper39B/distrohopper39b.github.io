@@ -116,19 +116,19 @@
                         </tr>
                         <tr>
                             <td><b>Windows Vista</b></td> <!-- Operating System -->
-                            <td>Partially Working</td> <!-- Kernel -->
-                            <td>Unknown<sup>4</sup></td> <!-- PCI -->
-                            <td>Unknown<sup>4</sup></td> <!-- USB -->
-                            <td>Broken</td> <!-- Basic Video -->
-                            <td>Unknown<sup>4</sup></td> <!-- Accelerated Video (HDMI)-->
-                            <td>Unknown<sup>4</sup></td> <!-- Accelerated Video (Component)-->
-                            <td>Unknown<sup>4</sup></td> <!-- Ethernet -->
-                            <td>Unknown<sup>4</sup></td> <!-- WiFi -->
-                            <td>Unknown<sup>4</sup></td> <!-- RCA audio -->
-                            <td>Unknown<sup>4</sup></td> <!-- Optical audio -->
-                            <td>Unknown<sup>4</sup></td> <!-- HDMI audio -->
-                            <td>Unknown<sup>4</sup></td> <!-- Remote -->
-                            <td>Unknown<sup>4</sup></td> <!-- Software Reboot -->
+                            <td>Partially Working<sup>4</sup></td> <!-- Kernel -->
+                            <td>Partially Working<sup>4</sup></td> <!-- PCI -->
+                            <td>Partially Working<sup>4</sup></td> <!-- USB -->
+                            <td>Working</td> <!-- Basic Video -->
+                            <td>Broken<sup>4</sup></td> <!-- Accelerated Video (HDMI)-->
+                            <td>Broken<sup>4</sup></td> <!-- Accelerated Video (Component)-->
+                            <td>Untested<sup>4</sup></td> <!-- Ethernet -->
+                            <td>Untested<sup>4</sup></td> <!-- WiFi -->
+                            <td>Untested<sup>4</sup></td> <!-- RCA audio -->
+                            <td>Untested<sup>4</sup></td> <!-- Optical audio -->
+                            <td>Untested<sup>4</sup></td> <!-- HDMI audio -->
+                            <td>Untested</td> <!-- Remote -->
+                            <td>Working</td> <!-- Software Reboot -->
                         </tr>
                         <tr class="unsupported">
                             <td><b>Windows 7</b></td>
@@ -195,7 +195,7 @@
                 <li>See <a href="ntatv/guide.html#nvidia_driver">Guide#NVIDIA Graphics</a>.</li>
                 <li>See <a href="ntatv/guide.html#wifi">Guide#Wi-Fi</a>.</li>
                 <li>Audio plays, but at an extremely low volume. See <a href="ntatv/guide.html#sound">Guide#Sound</a>.</li>
-                <li>When booting Vista is attempted, the hard drive will spin up as if the system is booting but the system never connects to the network. It is possible that Vista would boot correctly if a working basic video driver is used, but nothing worked for me. A similar issue appears on later Longhorn builds.</li>
+                <li>I have been able to boot Vista on the Apple TV, however it seems to have major issues with USB, Internet connectivity doesn't work, and the NVIDIA drivers do not work. As such, binaries or instructions will not be published unless and until these issues are resolved.</li>
                 <li>Non-working PCI breaks nearly everything on ReactOS.</li>
                 <li>Functionally useless on Apple TVs with 256MB RAM. Upgrading to 512MB requires surface mount soldering skills and equipment as well as a firmware flasher. Windows 8 and later also use a completely different installation process involving <a href="https://github.com/DistroHopper39B/u-boot" target="_blank">a modified U-Boot</a> that I haven't documented because there are only a few dozen 512MB Apple TVs.</li>
                 <li>Must use the <a href="https://catalog.s.download.windowsupdate.com/msdownload/update/driver/drvs/2011/06/20254023_72141f37942172d7c548fd7cf01462dfaa24c8a5.cab" target="_blank">179.67 WDDM drivers</a> (direct download link) and install via Device Manager. In modern Windows 10, this driver is very unstable due to issues with old WDDM drivers; turn off transparency for the best experience.</li>
