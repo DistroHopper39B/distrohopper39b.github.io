@@ -14,7 +14,7 @@
             NTATV - Windows NT on the Original Apple TV
         </h1>
         <p>
-            <img src="img/NTATV_Logo_256.png" alt="NTATV Logo" width="160">
+            <img src="/img/NTATV_Logo_256.png" alt="NTATV Logo" width="160">
         </p>
         <p>
             The NTATV Project: Bringing Windows NT (Windows 2000, Windows XP, Windows 2003, ReactOS) to the original Apple TV.
@@ -26,6 +26,12 @@
             <br />
             Want to join the Apple TV hacking community? Join the official <a href="https://discord.gg/F4FX4N2F6A" target="_blank">Discord server</a>!
         </h3>
+        <hr>
+        <h2>IMPORTANT NOTICE FOR ALL NTATV USERS</h2>
+        <p>
+            NTATV version 1.1 breaks compatibility with earlier versions of NTATV! Please read <a href="ntatv_upgrade.html">this page</a> for instructions on how to upgrade.
+        </p>
+        <hr>
         <p>Contents:</p>
         <ol>
             <li><a href="#status">Status</a></li>
@@ -252,6 +258,15 @@
         </p>
         <hr>
         <a id="changelog"><h2>Changelog</h2></a>
+        <h3>v1.1</h3>
+        <h2>Please note that this release breaks compatibility with existing installs! Please follow <a href="ntatv_upgrade.html">this guide</a> to upgrade.</h2>
+        <ul>
+            <li>Major FreeLoader codebase upgrade</li>
+            <li>Improved Windows 2000 support, it will no longer break if 2k is updated too much</li>
+            <li>Newer, more reliable boot video driver</li>
+            <li>Improve memory mapping routines</li>
+            <li>Simpler installation process</li>
+        </ul>
         <h3>v1.0</h3>
         <ul>
             <li>FreeLoader NTFS issues should be solved, thanks <a href="https://github.com/iLauncherDev" target="_blank">iLauncherDev</a> (<a href="https://github.com/reactos/reactos/pull/8103" target="_blank">reactos#8103</a>) </li>
@@ -312,8 +327,7 @@
             <li><code>NTATV_UTILS/Boot/System/Library/Extensions/Dummy.kext</code>: <a href="https://github.com/DistroHopper39B/DummyKext" target="_blank">DummyKext</a> by me</li>
             <li><code>NTATV_UTILS/DiskAndVideoFix.reg</code>: currentq's testing</li>
             <li><code>NTATV_UTILS/Drivers/BroadcomNetworkAdatper/*</code>: Broadcom Wi-Fi driver v5.60.18.9 from Apple Boot Camp 3.1.1, extracted by me</li>
-            <li><code>NTATV_UTILS/Drivers/GenericFramebuffer/bootvid.dll</code>: fbbvid from <a href="https://reactos.org/" target="_blank">ReactOS</a>
-            <li><code>NTATV_UTILS/Drivers/GenericFramebuffer/genfbvmp.sys</code>: Generic framebuffer driver for <a href="https://reactos.org/" target="_blank">ReactOS</a> (not in upstream yet); written by <a href="https://github.com/DarkFire01" target="_blank">Justin Miller (The_DarkFire_)</a> and <a href="https://github.com/HBelusca" target="_blank">Hermès Bélusca-Maïto</a>; Windows modifications by me</li>
+            <li><code>NTATV_UTILS/Drivers/genfbvmp_1.02_installer.exe</code>: Generic Framebuffer driver and Linear Framebuffer Bootvid from ReactOS, written by Justin Miller (The_DarkFire_) and Hermès Bélusca-Maïto (hbelusca), Windows modifications by me</li>
             <li><code>NTATV_UTILS/Drivers/NVIDIA_179.48_AppleTV.exe</code>: <a href="https://www.nvidia.com/en-us/drivers/windows/179_48/geforce_notebook_winxp_179-48_beta/" target="_blank">NVIDIA 179.48 beta driver</a> with INF modifications and repack by me</li>
             <li><code>NTATV_UTILS/Drivers/RealtekSetupXP.exe</code>: Realtek HD audio driver v5.10.0.5936 from Boot Camp 3.1.1</li>
             <li><code>NTATV_UTILS/Drivers/Windows2000/boingoinstaller.exe</code>: <a href="http://web.archive.org/web/20071010213632/http://www.boingo.com/downloads/BW1201/boingoinstaller.exe" target="_blank">Boingo Wireless Software for Windows 2000</a> (direct download link)</li>

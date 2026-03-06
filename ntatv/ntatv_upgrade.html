@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Upgrading to NTATV 1.1</title>
+		<link rel="stylesheet" href="/style/site_style.css">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0,">
+	</head>
+    <body>
+        <p>
+            <a href="../ntatv">Go back to NTATV main page</a>
+        </p>
+        <hr>
+        <h1>Upgrading from previous NTATV releases to release 1.1</h1>
+        <p>
+            NTATV version 1.1 is a major codebase upgrade and, thanks to work by ReactOS developers, is much closer to upstream ReactOS. However, a change in ReactOS' FreeLoader slightly changed the way video information is passed through to Windows, just enough to break the existing <code>bootvid.dll</code> and <code>genfbvmp.sys</code> drivers that allow the Apple TV to display basic video and a boot screen under Windows. Upgrading these drivers is necessary in order to preserve a working boot screen and basic video.
+        </p>
+        <p>
+            Steps to do this without removing the hard drive:
+            <ol>
+                <li>Copy the contents of the <code>ntatv_drivers_and_utils_1.1.iso</code> to a FAT32-formatted USB flash drive.</li>
+                <li>Boot the Apple TV into Windows</li>
+                <li>Copy <code>freeldr.sys</code> from the <code>Boot</code> directory in the ISO to the boot partition on the Apple TV.</li>
+                <li>Run <code>genfbvmp_1.0.2_installer.exe</code> from the <code>Drivers</code> directory.</li>
+                <li>Reboot the Apple TV.</li>
+                <ul>
+                    <li>After a reboot, Explorer might not launch. To fix this, press Control-Shift-Escape to open Task Manager, kill <code>nvsvc32.exe</code> and <code>explorer.exe</code>, go to File -> Run, then type <code>explorer</code>.</li>
+                </ul>
+                <li>Install the NVIDIA drivers from <code>NVIDIA_179.48_AppleTV.exe</code></li>
+                <li>Reboot the Apple TV again</li>
+                <li>Display Properties will erroneously claim that the NVIDIA drivers are not running. To fix this, reboot the system for a third time.</li>
+            </ol>
+        </p>
+        <p>
+            On Windows 2000, you will also need to edit <code>C:\freeldr.ini</code> and change the <code>BootType</code> from <code>Windows</code> to <code>Windows2000</code>.
+        </p>
+    </body>
+</html>

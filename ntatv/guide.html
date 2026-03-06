@@ -139,26 +139,18 @@
             </div>
         </div>
         <p>
-            Now it's time to set up the video driver. Open the Device Manager by typing <code>devmgmt.msc</code> into the Run box, right click on "Video Controller (VGA Compatible)", and select "Update Driver..." on Windows XP or "Properties -> Reinstall Driver..." on Windows 2000. Select "No, not this time" when asked about Windows Update, then "Install from a list or specific location (Advanced)", check "Include this location in the search", and choose the path <code>C:\Drivers\GenericFramebuffer</code>.
+            Now it's time install the basic video driver. Navigate to <code>C:\Drivers</code>, then launch <code>genfb_1.0.2_installer.exe</code>.
         </p>
         <div id="wrapper">
             <div id="scroll">
-                <img src="img/BrowseToGenericFramebuffer.png" alt="Hardware Update Wizard">
+                <img src="img/InstallingGenFB.png" alt="Device Driver Installation Wizard for the Generic Framebuffer driver">
             </div>
         </div>
         <p>
-            When asked about driver signing, select "Continue Anyway". The Hardware Update Wizard will either state that "This device cannot start. (Code 10)." or ask for a restart. In either case, shut down the VM.
-        </p>
-        <div id="wrapper">
-            <div id="scroll">
-                <img src="img/CannotStartGenFB.png" alt="GenFB cannot start">
-            </div>
-        </div>
-        <p>
-            If you are installing in VirtualBox for one reason or another, you will need to convert the VDI image from VirtualBox to a raw IMG file. Use the following command for this:
+            If asked about driver signing, select "Continue Anyway". When the driver installation completes, shut down the VM.
         </p>
         <p>
-            <code>VBoxManage internalcommands converttoraw /path/to/Windows.vdi appletv_windows.img</code>
+            If you are installing in VirtualBox for one reason or another, you will need to convert the VDI image from VirtualBox to a raw IMG file. Use the following command for this: <code>VBoxManage internalcommands converttoraw /path/to/Windows.vdi appletv_windows.img</code>
         </p>
         <p>
             Now, restore the <code>appletv_windows.img</code> to an IDE hard disk using a tool of your choice (<code>dd</code>, GNOME Disks, Rufus, Etcher, etc).
