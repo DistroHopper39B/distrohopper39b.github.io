@@ -16,6 +16,11 @@
             There are currently two ways to install Windows XP on the original Apple TV: <a href="#easyway">the easy way</a>, and the hard way. Both methods require you to <a href="https://www.ifixit.com/Guide/Apple+TV+1st+Generation+Hard+Drive+Replacement/4799" target="_blank">remove the hard drive from your Apple TV</a> and use a USB-IDE adapter to access it. <b>Windows does not, and will almost definitely never, be able to boot from a USB drive because I'd need to write a USB stack from scratch.</b>
         </p>
         <hr>
+        <h2>IMPORTANT NOTICE FOR ALL NTATV USERS</h2>
+        <p>
+            NTATV version 1.1 breaks compatibility with earlier versions of NTATV! Please read <a href="ntatv_upgrade.html">this page</a> for instructions on how to upgrade.
+        </p>
+        <hr>
         <a id="easyway"><h2>The Easy Way</h2></a>
         <p>
             A premade image can be downloaded from <a href="https://archive.org/details/apple-tv-windows-xp-full.img" target="_blank">this Archive.org page</a>. Simply download, extract the zip file, and use a tool like GNOME Disks, <code>dd</code>, Rufus, Etcher, or any other disk flashing tool to write the image to the Apple TV's hard drive (or any laptop IDE drive, the TV isn't picky thankfully). You might have to enable writing to large/hard disks for some programs, so be careful to not overwrite the wrong drive. Put the hard drive in the Apple TV, turn it on, and after a few minutes, you should be at an XP desktop! The XP install has all drivers preinstalled and configured, and uses the default Administrator account with no password. However, there are some disadvantages to doing this:
