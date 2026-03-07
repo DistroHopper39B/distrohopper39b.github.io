@@ -250,10 +250,6 @@
         <p>
             Either you didn't set Windows to go to the login screen automatically or there's some incompatibility with Windows and the Apple TV's USB controller (this is a reported issue for some people on some Windows 2000 builds). Try unplugging and replugging the keyboard and mouse a few times and/or using a generic PC keyboard/mouse.
         </p>
-        <a id="hang_on_loading_drivers_after_update"><h3>Windows 2000 hangs after some updates are installed</h3></a>
-        <p>
-            Replace <code>freeldr.sys</code> with <a href="w2k_hack/freeldr.sys" target="_blank">this one</a>. This is caused by the <a href="https://github.com/DistroHopper39B/reactos/blob/0c7ab03282cdd1619d4dd4aa898bfd6b13708ff4/boot/freeldr/freeldr/arch/i386/appletv/appletvhw.c#L315" target="_blank">Windows version detection code</a> erroneously passing in the wrong ACPI tables to Windows 2000. 
-        </p>
         <hr>
         <a id="restore_to_stock"><h2>Restore the Stock OS</h2></a>
         <p>
