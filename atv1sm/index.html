@@ -23,7 +23,7 @@
             <li>Reinstall the CMOS battery</li>
         </ol>
         <p>
-            A PRAM reset before ever running ATV1sm should also work. This might also happen when using ATV1sm/UEFI FreeLoader to boot Windows XP, which is why I'd still recommend <a href="/ntatv">NTATV</a> for this purpose despite its lack of USB support and potential for .
+            A PRAM reset before ever running ATV1sm should also work. This also happens when using ATV1sm/UEFI FreeLoader to boot Windows XP, which is why I'd still recommend <a href="/ntatv">NTATV</a> for this purpose despite its lack of USB input/boot support.
         </p>
         <hr>
         <p>
@@ -148,7 +148,7 @@ Root of USB -> EFI -> boot -> bootia32.efi (and other rEFInd files)
                         </tr>
                         <tr>
                             <td><b>UEFI FreeLoader (ReactOS)</b></td>
-                            <td>GCC builds hang infinitely and display corrupted characters to the screen. MSVC builds work to the point of failing to detect <code>freeldr.ini</code>, but I didn't test beyond that point.</td>
+                            <td>GCC builds hang infinitely and display corrupted characters to the screen. MSVC builds successfully boot Windows but soft-brick (see above) the Apple TV.</td>
                         </tr>
                         <tr>
                             <td><b>Haiku R1/beta5 and Nightly</b></td>
