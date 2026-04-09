@@ -99,7 +99,7 @@ h1, h2, h3, h4 {
     font-family: "Lato";
 }
 
-code {
+code, pre {
     font-family: "Source Code Pro", monospace;
     overflow-wrap: break-word;
 }

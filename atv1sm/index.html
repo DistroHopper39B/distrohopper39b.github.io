@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>ATV1sm - Bypass for the original Apple TV's EFI verification</title>
+        <p>
+            <a href="/index.html">Go back to main page</a>
+        </p>
+        <link rel="stylesheet" href="/style/site_style.css">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0,">
+        <hr>
+    </head>
+    <body>
+        <h1>ATV1sm</h1>
+        <p>
+            Bypass for the original Apple TV's EFI verification, allowing it to boot and run any EFI-capable OS. <a href="https://github.com/DistroHopper39B/ATV1sm" target="_blank">View on GitHub</a>
+        </p>
+        <hr>
+        <h2>READ THIS FIRST!</h2>
+        <p>Every Apple device with IA32 EFI, including the original Apple TV, has a bug, likely in their memory map output, that results in possible soft-bricking when running Linux. If you expereince a soft-brick (LED blinking, no signal) when using ATV1sm, don't panic. Instead, follow these steps:</p>
+        <ol>
+            <li>Remove the CMOS battery</li>
+            <li>Plug the Apple TV in and perform a PRAM/NVRAM reset (hold Command-Option-P-R on the keyboard at power-on)</li>
+            <li>Reinstall the CMOS battery</li>
+        </ol>
+        <p>
+            A PRAM reset before ever running ATV1sm should also work. This might also happen when using ATV1sm/UEFI FreeLoader to boot Windows XP, which is why I'd still recommend <a href="/ntatv">NTATV</a> for this purpose despite its lack of USB support and potential for .
+        </p>
+        <hr>
+        <p>
+            Contents:
+            <ol>
+                <li><a href="#features">Features</a></li>
+                <li><a href="#installation">Installation</a></li>
+                <li><a href="#how-this-works">How this works</a></li>
+                <li><a href="#known-issues">Known issues</a></li>
+                <li><a href="#components-used">Components used</a></li>
+                <li><a href="#compiling">Compiling</a></li>
+                <li><a href="#special-thanks">Special Thanks</a></li>
+                <li><a href="#name">Name</a></li>
+            </ol>
+        </p>
+        <hr>
+        <a id="features"><h2>Features</h2></a>
+        <p>
+            <ul>
+                <li>Virtually every 32-bit and Class-3 EFI-capable OS can now work on the original Apple TV</li>
+                <li>Can be run from a USB flash drive and installed onto the internal hard drive</li>
+                <li>USB flash drive bundled with <a href="https://rodsbooks.com/refind" target="_blank">rEFInd</a> to allow for chainloading other EFI loaders</li>
+                <li>Automatically loads <a href="/gopshim">GopShim</a> to allow for working basic video on EFI OSes such as Windows</li>
+            </ul>
+        </p>
+        <hr>
+        <a id="installation"><h2>Installation</h2></a>
+        <p><i>Note: This process is easiest to do on Linux due to its handling of GPT disks. Instructions for USB disk partitioning are for Linux only.</i></p>
+        <h3>Getting Apple Service Diagnostics</h3>
+        <p>
+            This process involves a copy of the internal Apple Service Diagnostic (ASD) tool that Apple stores and AASPs used back in the day to diagnose problems with the original Apple TV. I <i>heard</i> you could get one from here: <a href="https://www.mediafire.com/file/zb8gsnh2ef820dk/693-6420-A.9999.dmg" target="_blank">https://www.mediafire.com/file/zb8gsnh2ef820dk/693-6420-A.9999.dmg</a>
+        </p>
+        <p>
+            Once you've downloaded this file, you must extract it. To do so using 7-zip CLI:
+        </p>
+        <p>
+            <code>
+                7z e 693-6420-A.9999.dmg "Apple TV Diag Installer App/Apple TV Diagnostics Installer.app/Contents/Resources/AppleTVDiags01.dmg"
+                <br />
+                7z x AppleTVDiags01.dmg "FieldDiags/System"
+            </code>
+        </p>
+        <h3>Patching ASD with ATV1sm and GopShim</h3>
+        <p>
+            <ul>
+                <li>Download and unzip <code>ATV1sm_0.1.2.zip</code> from the <a href="https://github.com/DistroHopper39B/ATV1sm/releases/" target="_blank">GitHub releases page</a></li>
+                <li>Copy <code>ASD</code> to <code>/System/Library/CoreServices/ASD.acm/Contents/MacOS/ASD</code>, replacing the existing file</li>
+                <li>Copy <code>GopShimDxe.efi</code> to <code>/System/Library/CoreServices/Runtime_Files/EFI/Drivers/GopShimDxe.efi</code></li>
+            </ul>
+        </p>
+        <h3>Creating a USB flash drive with ATV1sm and rEFInd</h3>
+        <p>
+            <ol>
+                <li>Format a USB drive as GPT. In GParted:</li>
+                <ol>
+                    <li>Select the drive</li>
+                    <li>Go to <code>Device -> Create Partition Table...</code></li>
+                </ol>
+                <li>Create a FAT32 partition</li>
+                <ol>
+                    <li><code>Partition -> New</code></li>
+                    <li>File system: <code>fat32</code></li>
+                </ol>
+                <li>Change partition flags</li>
+                <ol>
+                    <li><code>Partition -> Manage Flags</code></li>
+                    <li>Check <code>atvrecv</code></li>
+                </ol>
+                <li>Copy the <code>System</code> folder we extracted and modified earlier to the root of this drive</li>
+                <li>Copy the <code>EFI</code> folder from <code>ATV1sm_0.1.2.zip</code> (contains rEFInd) to the root of this drive</li>
+            </ol>
+            <p>In the end, your drive's layout should look like this:</p>
+            <pre style="overflow:auto">
+Root of USB -> EFI -> boot -> bootia32.efi (and other rEFInd files)
+                   -> tools -> shellia32.efi
+            -> System -> Library -> CoreServices -> ASD.acm -> Contents -> MacOS -> ASD (replaced)
+                                 -> Runtime_Files -> EFI -> Drivers -> GopShimDxe.efi (added)
+            </pre>
+            <p>
+                If you did everything right, you should now be able to plug the USB flash drive into the Apple TV, turn it on, and, after a few seconds and some lines scrolling down the screen, get to the rEFInd menu! 
+            </p>
+        </p>
+        <h3>Installing onto an ESP on the internal hard disk</h3>
+        <p>
+            Unlike with USB booting, the ESP does not have to be a special partition type in order to work. Simply mount the ESP on the installed system, copy the <code>System</code> folder to it (you might need to copy the files off a secondary USB flash drive, as most non-Linux OSes do not want to mount an Apple TV recovery partition), and reboot!
+        </p>
+        <p>
+            Note: Some OSes (notably Debian) don't install their bootloader to <code>/EFI/BOOT</code> by default. To resolve this, run <code>grub-install --removable /dev/&lt;internal hard drive ID, probably sda&gt;</code>.
+        </p>
+        <hr>
+        <a id="how-this-works"><h2>How this works</h2></a>
+        <p> 
+            The original Apple TV has EFI firmware, just like every Intel Mac ever sold. Unlike all non-T2 models, though, the Apple TV's EFI firmware is locked to only Apple-signed executables. Previously, the only known useful executable to be signed was the <code>boot.efi</code> executable that came with the Apple TV's version of 10.4.7, and a few bootloaders for other Mac OS X versions. Previously, code execution has been achieved by replacing the <code>mach_kernel</code> that <code>boot.efi</code> loads with our own. This is what every other contemporary Apple TV hack (NTATV FreeLoader, atv-bootloader) does. However, it has a major drawback: we don't have access to <a href="https://uefi.org/specs/UEFI/2.9_A/07_Services_Boot_Services.html" target="_blank">EFI boot services</a>. This means that things like disk access, printing to the screen, reading from input devices (keyboards, mice), and memory allocation must be done manually like we are in a real OS. Because of the lack of boot services, conventional bootloaders, like GRUB2 and Windows Boot Manager, never worked on the original Apple TV.
+        </p>
+        <p>
+            One of the other signed executables is the version of Apple Service Diagnostic (Apple Store/AASP version of Apple Hardware Test) for the Apple TV. Thanks to research by <a href="https://github.com/wack0" target="_blank">Rairii/WackO</a>, it was determined that ASD loads and executes a <a href="https://developer.apple.com/library/archive/documentation/Performance/Conceptual/CodeFootprint/Articles/MachOOverview.html" target="_blank">Mach-O</a> bundle file while still in an EFI boot services environment and, importantly for us, without any signature checks. The Mach-O file, located at <code>/System/Library/CoreServices/ASD.acm/Contents/MacOS/ASD</code> (which, contrary to its location, is not run under Mac OS), is the main runtime of Apple Software Diagnostic, and is loaded quickly at the beginning of ASD's initialization. It can be replaced with our own file of the same format to get code execution under EFI boot services!
+        </p>
+        <p>
+            In order to actually do anything useful with our newfound code execution, however, we need the pointers (memory addresses) to the EFI <a href="https://uefi.org/specs/UEFI/2.9_A/02_Overview.html#uefi-applications" target="_blank">image handle</a> and <a href="https://uefi.org/specs/UEFI/2.9_A/04_EFI_System_Table.html" target="_blank">system table</a>. Thankfully, ASD (specifically the <code>TestSupport.efi</code> driver) sets the value of the symbol <code>gCoreFunction</code> inside of the Mach-O executable to the address of a global variable inside itself. <code>TestSupport.efi</code>, like most EFI applications, also stores the image handle and system table as global variables, so all that has to be done is to deterimine where these are stored relative to <code>gCoreFunction</code>. Rairii <a href="https://github.com/DistroHopper39B/ATV1sm/blob/master/main.c#L50" target="_blank">figured these offsets out</a>, which allowed me to gain access to EFI boot services!
+        </p>
+        <p>
+            With access to EFI boot services, I could run whatever code I wanted to in this phase of Apple TV initialization, but there was still a problem: I couldn't load any conventional bootloaders (at least not without recompiling them from source and modifying them to work with my weird build system). This is because the <code>LoadImage</code> and <code>StartImage</code> EFI boot services are responsible for enforcing the EFI lock on the Apple TV, much like they are with UEFI secure boot (which the Apple TV's implementation is not identical to, though it is conceptually similar). Since I have full control over the memory space at this stage, I can just replace those functions, along with <code>UnloadImage</code> and <code>Exit</code>, with my own implementations (or, more accurately, implementations based on OpenCore's <a href="https://github.com/acidanthera/OpenCorePkg/tree/master/Library/OcBootManagementLib" target="_blank">OcBootManagementLib</a>). With that done, I now have full, persistent, EFI access on the original Apple TV! I can chainload anything, including Windows Boot Manager, GRUB2, FreeLoader, and the NetBSD bootloader, to run virtually any modern-ish OS on the Apple TV.
+        </p>
+        <hr>
+        <a id="known-issues"><h2>Known Issues</h2></a>
+        <p>
+            <ul>
+                <li>This is NOT to be taken as a reference implementation of, well, anything lol. The code for <code>Load</code>/<code>Start</code>/<code>UnloadImage</code>/<code>Exit</code> is haphazardly copy-pasted from OpenCore, resulting in some bootloaders (notable MinGW-compiled UEFI FreeLoader) not working.</li>
+                <li>Fat binaries (like those used in Mac OS X) do not work and will fall back to the locked original <code>Load</code>/<code>StartImage</code> for now.</li>
+                <li>ATV1sm freezes when attempting to open a file when compiled with optimizations enabled or with Apple clang. I'd assume it has something to do with the fact that I'm targeting the wrong ABI and there is no valid reason on the face of the earth to ever do what I am doing. Or maybe it's the Apple gods personally smiting me down for sinning. I'm not sure.</li>
+            </ul>
+        </p>
+        <hr>
+        <a id="components-used"><h2>Components used</h2></a>
+        <p>
+            <ul>
+                <li>Portions of OpenCore's <a href="https://github.com/acidanthera/OpenCorePkg/tree/master/Library/OcBootManagementLib" target="_blank">OcBootManagementLib</a></li>
+                <li><a href="https://github.com/ncroxon/gnu-efi" target="_blank">GNU-EFI</a> (hard fork for Clang/Mach-O support, the build process is also completely different)</li>
+                <li><a href="https://github.com/PetteriAimonen/Baselibc" target="_blank">Baselibc</a> string/memory functions</li>
+                <li><a href="https://www.rodsbooks.com/refind/" target="_blank">rEFInd</a> bundled, along with an EFI 1.x shell from <a href="https://refit.sourceforge.net/" target="_blank">rEFIt</a></li>
+            </ul>
+        </p>
+        <hr>
+        <a id="compiling"><h2>Compiling</h2></a>
+        <h3>Linux</h3>
+        <p>
+            <ul>
+                <li>Install LLVM/Clang, autoconf, automake, libtool, git, and nasm</li>
+                <li>Compile and install version 986 of <a href="https://github.com/tpoechtrager/cctools-port" target="_blank">cctools-port</a> (newer versions work but are more complicated to set up):</li>
+                <code>
+                    git clone https://github.com/tpoechtrager/cctools-port.git -b 986-ld64-711
+                    <br />
+                    cd cctools-port/cctools
+                    <br />
+                    ./configure --prefix=/opt/cross --target=i386-apple-darwin8
+                    <br />
+                    make -j$(nproc)
+                    <br />
+                    sudo make install
+                </code>
+                <li>Clone this repo and <code>cd</code> into it</li>
+                <li>Type <code>export PATH=/opt/cross/bin:$PATH</code></li>
+                <li>Type <code>make</code></li>
+            </ul>
+        </p>
+        <h3>macOS</h3>
+        <p>
+            <ul>
+                <li>Install the Xcode command line tools</li>
+                <li>Install nasm and llvm from Homebrew (or MacPorts, or somewhere else)</li>
+                <li>Clone this repo and <code>cd</code> into it</li>
+                <li>Type <code>make</code></li>
+            </ul>
+        </p>
+        <h3>Windows</h3>
+        <p>
+            Use WSL or a Linux VM or something. I don't develop on Windows.
+        </p>
+        <hr>
+        <a id="special-thanks"><h2>Special Thanks</h2></a>
+        <p>
+            <a href="https://github.com/wack0" target="_blank">Rairii/Wack0</a> for determining the offsets of the system table and image handle
+        </p>
+        <hr>
+        <a id="name"><h2>Name</h2></a>
+        <p>
+            ATV1sm is a combination of the words Apple TV 1 (ATV1) and autism (since <b>A</b>pple <b>S</b>oftware <b>D</b>iagnostic and <b>A</b>utism <b>S</b>pectrum <b>D</b>isorder have the same acronym, and also because it took an immense amount of autism to put this thing together). Let me know if you can think of anything better.
+        </p>
+    </body>
+</html>
