@@ -114,6 +114,57 @@ Root of USB -> EFI -> boot -> bootia32.efi (and other rEFInd files)
             Note: Some OSes (notably Debian) don't install their bootloader to <code>/EFI/BOOT</code> by default. To resolve this, run <code>grub-install --removable /dev/&lt;internal hard drive ID, probably sda&gt;</code>.
         </p>
         <hr>
+        <a id="tested-oses-loaders"><h2>Tested OSes and Loaders</h2></a>
+        <div id="wrapper">
+            <div id="scroll">
+                <table style="max-width: 800px">
+                    <thead>
+                        <tr style="font-weight: bold">
+                            <td>OS name</td>
+                            <td>Status</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><b>rEFInd</b></td>
+                            <td>Works perfectly</td>
+                        </tr>
+                        <tr>
+                            <td><b>Alpine Linux</b></td>
+                            <td>Boots, installs, runs. May result in a "soft-brick", see above. Only 194MB RAM is accessible to the system (compared to 212MB when booting with atv-bootloader).</td>
+                        </tr>
+                        <tr>
+                            <td><b>NetBSD 10.1</b></td>
+                            <td>Boots, installs, runs. 32-bit installer USB must be patched to add EFI bootloader from 64-bit NetBSD. RCA audio is quiet, optical and HDMI audio works. NVIDIA drivers do not load and must be disabled by typing <code>userconf disable nouveau</code> before <code>boot</code> at the boot shell.</td>
+                        </tr>
+                        <tr>
+                            <td><b>9front (Plan9)</b></td>
+                            <td>Boots to desktop from USB. Input works fine. Part of the screen is cut off due to </td>
+                        </tr>
+                        <tr>
+                            <td><b>Windows 8/8.1/10 (Windows Boot Manager)</b></td>
+                            <td>Installation must be done on a second machine/VM due to low RAM. Boots, but virtually unusable on 256MB RAM even when debloated. NVIDIA drivers install and work. HDMI audio does not work. RCA audio is quiet.</td>
+                        </tr>
+                        <tr>
+                            <td><b>UEFI FreeLoader (ReactOS)</b></td>
+                            <td>GCC builds hang infinitely and display corrupted characters to the screen. MSVC builds work to the point of failing to detect <code>freeldr.ini</code>, but I didn't test beyond that point.</td>
+                        </tr>
+                        <tr>
+                            <td><b>Haiku R1/beta5 and Nightly</b></td>
+                            <td>Hangs infinitely at startup, something is hanging in <code>calculate_cpu_conversion_factor</code>. Even when this is commented out, Haiku hangs due to some incompatibility with the way it handles the Block I/O protocol.</td>
+                        </tr>
+                        <tr>
+                            <td><b>Windows Longhorn/Vista/7 EFI</b></td>
+                            <td>Requires CSM in order to work or work properly. May not work at all for booting 32-bit Windows.</td>
+                        </tr>
+                        <tr>
+                            <td><b>CSMWrap</b></td>
+                            <td>Apple TV is missing PCI I/O protocol, which results in broken VGA arbitration and therefore any number of issues once SeaBIOS loads. Specifying the Apple TV's VGA BIOS also does not work.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
         <a id="how-this-works"><h2>How this works</h2></a>
         <p> 
             The original Apple TV has EFI firmware, just like every Intel Mac ever sold. Unlike all non-T2 models, though, the Apple TV's EFI firmware is locked to only Apple-signed executables. Previously, the only known useful executable to be signed was the <code>boot.efi</code> executable that came with the Apple TV's version of 10.4.7, and a few bootloaders for other Mac OS X versions. Previously, code execution has been achieved by replacing the <code>mach_kernel</code> that <code>boot.efi</code> loads with our own. This is what every other contemporary Apple TV hack (NTATV FreeLoader, atv-bootloader) does. However, it has a major drawback: we don't have access to <a href="https://uefi.org/specs/UEFI/2.9_A/07_Services_Boot_Services.html" target="_blank">EFI boot services</a>. This means that things like disk access, printing to the screen, reading from input devices (keyboards, mice), and memory allocation must be done manually like we are in a real OS. Because of the lack of boot services, conventional bootloaders, like GRUB2 and Windows Boot Manager, never worked on the original Apple TV.
