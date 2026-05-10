@@ -35,8 +35,7 @@
         <p>Contents:</p>
         <ol>
             <li><a href="#status">Status</a></li>
-            <li><a href="#known-issues">Known Issues</a></li>
-            <li><a href="#never-work">Things that will Likely Never Work</a></li>
+            <li><a href="#additional-issues">Additional Issues</a></li>
             <li><a href="#get-involved">Get Involved</a></li>
             <li><a href="#changelog">Changelog</a></li>
             <li><a href="#acknowledgements">Acknowledgements</a></li>
@@ -70,7 +69,7 @@
                     <tbody>
                         <tr class="unsupported">
                             <td><b>Windows pre-2000 (NT3/4, 9x, DOS-based, etc)</b></td>
-                            <td colspan="13"><b>Will likely never work; too reliant on legacy BIOS, PIC interrupts, and non-ACPI device enumeration</b></td>
+                            <td colspan="13"><b>Will likely never work; too reliant on legacy BIOS, PIC interrupts, and non-ACPI device enumeration (would require a completely custom HAL)</b></td>
                         </tr>
                         <tr>
                             <td><b>Windows 2000</b></td> <!-- Operating System -->
@@ -78,11 +77,11 @@
                             <td>Working</td> <!-- PCI -->
                             <td>Working</td> <!-- USB -->
                             <td>Working</td> <!-- Basic Video -->
-                            <td>Working<sup>1</sup></td> <!-- Accelerated Video (HDMI)-->
+                            <td>Working</td> <!-- Accelerated Video (HDMI)-->
                             <td>Untested</td> <!-- Accelerated Video (Component)-->
                             <td>Working</td> <!-- Ethernet -->
-                            <td>Working<sup>2</sup></td> <!-- WiFi -->
-                            <td>Partially Working<sup>3</sup></td> <!-- RCA audio -->
+                            <td>Working</td> <!-- WiFi -->
+                            <td>Partially Working<sup>1</sup></td> <!-- RCA audio -->
                             <td>Working</td> <!-- Optical audio -->
                             <td>Untested</td> <!-- HDMI audio -->
                             <td>Broken</td> <!-- Remote -->
@@ -94,14 +93,14 @@
                             <td>Working</td> <!-- PCI -->
                             <td>Working</td> <!-- USB -->
                             <td>Working</td> <!-- Basic Video -->
-                            <td>Working<sup>1</sup></td> <!-- Accelerated Video (HDMI)-->
-                            <td>Working<sup>8</sup></td> <!-- Accelerated Video (Component)-->
+                            <td>Working</td> <!-- Accelerated Video (HDMI)-->
+                            <td>Working</td> <!-- Accelerated Video (Component)-->
                             <td>Working</td> <!-- Ethernet -->
                             <td>Working</td> <!-- WiFi -->
-                            <td>Partially Working<sup>3</sup></td> <!-- RCA audio -->
+                            <td>Partially Working<sup>1</sup></td> <!-- RCA audio -->
                             <td>Working</td> <!-- Optical audio -->
                             <td>Broken</td> <!-- HDMI audio -->
-                            <td>Partially Working<sup>9</sup></td> <!-- Remote -->
+                            <td>Partially Working<sup>5</sup></td> <!-- Remote -->
                             <td>Working</td> <!-- Software Reboot -->
                         </tr>
                         <tr>
@@ -122,17 +121,17 @@
                         </tr>
                         <tr>
                             <td><b>Windows Vista</b></td> <!-- Operating System -->
-                            <td>Partially Working<sup>4</sup></td> <!-- Kernel -->
-                            <td>Partially Working<sup>4</sup></td> <!-- PCI -->
-                            <td>Partially Working<sup>4</sup></td> <!-- USB -->
+                            <td>Partially Working<sup>2</sup></td> <!-- Kernel -->
+                            <td>Partially Working<sup>2</sup></td> <!-- PCI -->
+                            <td>Partially Working<sup>2</sup></td> <!-- USB -->
                             <td>Working</td> <!-- Basic Video -->
-                            <td>Broken<sup>4</sup></td> <!-- Accelerated Video (HDMI)-->
-                            <td>Broken<sup>4</sup></td> <!-- Accelerated Video (Component)-->
-                            <td>Untested<sup>4</sup></td> <!-- Ethernet -->
-                            <td>Untested<sup>4</sup></td> <!-- WiFi -->
-                            <td>Untested<sup>4</sup></td> <!-- RCA audio -->
-                            <td>Untested<sup>4</sup></td> <!-- Optical audio -->
-                            <td>Untested<sup>4</sup></td> <!-- HDMI audio -->
+                            <td>Broken<sup>2</sup></td> <!-- Accelerated Video (HDMI)-->
+                            <td>Broken<sup>2</sup></td> <!-- Accelerated Video (Component)-->
+                            <td>Untested<sup>2</sup></td> <!-- Ethernet -->
+                            <td>Untested<sup>2</sup></td> <!-- WiFi -->
+                            <td>Untested<sup>2</sup></td> <!-- RCA audio -->
+                            <td>Untested<sup>2</sup></td> <!-- Optical audio -->
+                            <td>Untested<sup>2</sup></td> <!-- HDMI audio -->
                             <td>Untested</td> <!-- Remote -->
                             <td>Working</td> <!-- Software Reboot -->
                         </tr>
@@ -142,31 +141,31 @@
                         </tr>
                         <tr>
                             <td><b>Windows 8, 8.1</b></td> <!-- Operating System -->
-                            <td>Working<sup>6</sup></td> <!-- Kernel -->
+                            <td>Working<sup>3</sup></td> <!-- Kernel -->
                             <td>Working</td> <!-- PCI -->
                             <td>Working</td> <!-- USB -->
                             <td>Working</td> <!-- Basic Video -->
-                            <td>Working<sup>7</sup></td> <!-- Accelerated Video (HDMI)-->
+                            <td>Working</td> <!-- Accelerated Video (HDMI)-->
                             <td>Untested</td> <!-- Accelerated Video (Component)-->
                             <td>Working</td> <!-- Ethernet -->
                             <td>Working</td> <!-- WiFi -->
-                            <td>Partially Working<sup>3</sup></td> <!-- RCA audio -->
+                            <td>Partially Working<sup>1</sup></td> <!-- RCA audio -->
                             <td>Untested</td> <!-- Optical audio -->
                             <td>Broken</td> <!-- HDMI audio -->
-                            <td>Untested</td> <!-- Remote -->
+                            <td>Partially Working<sup>5</sup></td> <!-- Remote -->
                             <td>Working</td> <!-- Software Reboot -->
                         </tr>
                         <tr>
                             <td><b>Windows 10</b></td> <!-- Operating System -->
-                            <td>Working<sup>6</sup></td> <!-- Kernel -->
+                            <td>Working<sup>3</sup></td> <!-- Kernel -->
                             <td>Working</td> <!-- PCI -->
                             <td>Working</td> <!-- USB -->
                             <td>Working</td> <!-- Basic Video -->
-                            <td>Working<sup>7</sup></td> <!-- Accelerated Video (HDMI)-->
+                            <td>Working</td> <!-- Accelerated Video (HDMI)-->
                             <td>Untested</td> <!-- Accelerated Video (Component)-->
                             <td>Working</td> <!-- Ethernet -->
                             <td>Working</td> <!-- WiFi -->
-                            <td>Partially Working<sup>3</sup></td> <!-- RCA audio -->
+                            <td>Partially Working<sup>1</sup></td> <!-- RCA audio -->
                             <td>Untested</td> <!-- Optical audio -->
                             <td>Broken</td> <!-- HDMI audio -->
                             <td>Untested</td> <!-- Remote -->
@@ -180,55 +179,43 @@
                             <td><b>ReactOS</b></td> <!-- Operating System -->
                             <td>Working</td> <!-- Kernel -->
                             <td>Broken</td> <!-- PCI -->
-                            <td>Broken<sup>5</sup></td> <!-- USB -->
+                            <td>Broken<sup>4</sup></td> <!-- USB -->
                             <td>Working</td> <!-- Basic Video -->
-                            <td>Broken<sup>5</sup></td> <!-- Accelerated Video (HDMI)-->
-                            <td>Broken<sup>5</sup></td> <!-- Accelerated Video (Component)-->
-                            <td>Broken<sup>5</sup></td> <!-- Ethernet -->
-                            <td>Broken<sup>5</sup></td> <!-- WiFi -->
-                            <td>Broken<sup>5</sup></td> <!-- RCA audio -->
-                            <td>Broken<sup>5</sup></td> <!-- Optical audio -->
-                            <td>Broken<sup>5</sup></td> <!-- HDMI audio -->
-                            <td>Broken<sup>5</sup></td> <!-- Remote -->
-                            <td>Broken<sup>5</sup></td> <!-- Software Reboot -->
+                            <td>Broken<sup>4</sup></td> <!-- Accelerated Video (HDMI)-->
+                            <td>Broken<sup>4</sup></td> <!-- Accelerated Video (Component)-->
+                            <td>Broken<sup>4</sup></td> <!-- Ethernet -->
+                            <td>Broken<sup>4</sup></td> <!-- WiFi -->
+                            <td>Broken<sup>4</sup></td> <!-- RCA audio -->
+                            <td>Broken<sup>4</sup></td> <!-- Optical audio -->
+                            <td>Broken<sup>4</sup></td> <!-- HDMI audio -->
+                            <td>Broken<sup>4</sup></td> <!-- Remote -->
+                            <td>Broken<sup>4</sup></td> <!-- Software Reboot -->
                         </tr>
                     </tbody>
                 </table>
             </div>
         </div>
         <p>
+            <p>
+                
+            </p>
             <ol>
-                <li>See <a href="guide.html#nvidia_driver">Guide#NVIDIA Graphics</a>.</li>
-                <li>See <a href="guide.html#wifi">Guide#Wi-Fi</a>.</li>
                 <li>Audio plays, but at an extremely low volume. See <a href="guide.html#sound">Guide#Sound</a>.</li>
                 <li>I have been able to boot Vista on the Apple TV, however it seems to have major issues with USB, Internet connectivity doesn't work, and the NVIDIA drivers do not work. As such, binaries or instructions will not be published unless and until these issues are resolved.</li>
+                <li>Functionally useless on Apple TVs with 256MB RAM; an SSD is all but required as the kernel and basic drivers alone use about 192MB minimum. Usage requires <a href="/atv1sm" target="_blank">ATV1sm</a> and Windows must be installed on another machine/in a VM since the installer won't load on the TV.</li>
                 <li>Non-working PCI breaks nearly everything on ReactOS.</li>
-                <li>Functionally useless on Apple TVs with 256MB RAM. Upgrading to 512MB requires surface mount soldering skills and equipment as well as a firmware flasher. Windows 8 and later also use a completely different installation process involving <a href="https://github.com/DistroHopper39B/u-boot" target="_blank">a modified U-Boot</a> that I haven't documented because there are only a few dozen 512MB Apple TVs.</li>
-                <li>Must use the <a href="https://catalog.s.download.windowsupdate.com/msdownload/update/driver/drvs/2011/06/20254023_72141f37942172d7c548fd7cf01462dfaa24c8a5.cab" target="_blank">179.67 WDDM drivers</a> (direct download link) and install via Device Manager. In modern Windows 10, this driver is very unstable due to issues with old WDDM drivers; turn off transparency for the best experience.</li>
-                <li>May be a bit finicky; use the NVIDIA Control Panel's HDTV settings to adjust the monitor parameters. Attempting to extend the desktop across both an HDMI and Component monitor bricks your install.</li>
                 <li>Early alpha driver available <a href="https://github.com/DistroHopper39B/NTATV_RemoteDrv" target="_blank">here</a> for Windows XP SP2 and later. This driver will not work on earlier versions due to limitations of the WinUSB library. This driver should work fine for LED control but its remote support is in early stages.</li>
             </ol>
         </p>
         <hr>
-        <a id="known-issues"><h2>Known Issues</h2></a>
+        <a id="additional-issues"><h2>Additional Issues</h2></a>
         <ul>
-            <li>Non-English installs of Windows seem to still have issues with NTFS. If you get errors like <code>Cannot open SYSTEM.ALT hive!</code>, reinstall on a FAT32 partition. You should be able to convert that partition to NTFS later on with no repercussions.</li>
-            <li>RDP connections fail, reason why is unknown buy may have to do with the NVIDIA driver.</li>
+            <li>Some horribly made IDE to SATA adapters have issues with Windows XP, the Apple TV's firmware, FreeLoader (our custom bootloader), or all of the above. I'd recommend the white plastic cased IDE to mSATA adapters you can find on AliExpress/eBay/Amazon for under $10 under various sellers and brand names, I seem to have the best luck with those (though USB adapters sometimes have issues on those, so consider an mSATA to USB adapter for imaging)</li>
+            <li>NTFS has issues on non-English Windows installs due to FreeLoader bugs. If you get errors like <code>Cannot open SYSTEM.ALT hive!</code>, reinstall on a FAT32 partition. You should be able to convert that partition to NTFS later on with no repercussions.</li>
+            <li>RDP connections fail on custom-built images. If you use sysprep to wipe the system configuration, as I did on the prebuilt image, RDP connections work fine, but if you don't, RDP will instantly disconnect.</li>
+            <li>HDMI audio will probably never work. The Apple TV uses an extremely weird configuration for HDMI audio in that the Intel chipset, not the NVIDIA video card, is responsible for the audio over the HDMI port. The Intel HDMI audio drivers from the GMA 950 drivers will install, but no devices show up. In order to get this working, I'd need to either completely rewrite or binary patch the Intel HDMI audio drivers to support the Apple TV, which would likely be extremely complicated. If someone wants to work on this please let me know, but for now audio via HDMI will not work.</li>
+            <li>NTVDM on Windows XP requires some legacy BIOS functions (likely the Extended BIOS data area and legacy VESA functions) and therefore will not work. Just use DOSBox or <a href="https://github.com/otya128/winevdm/releases" target="_blank">WineVDM</a> (make sure to download the version for older Windows versions) to run DOS/early Windows applications. I haven't tested it on Windows 8/10 but it probably works fine since those OSes have official UEFI support.</li>
         </ul>
-        <hr>
-        <a id="never-work"><h2>Things that will Likely Never Work</h2></a>
-        <h3>HDMI audio</h3>
-        <p>
-            The Apple TV uses an extremely weird configuration for HDMI audio in that the Intel chipset, not the NVIDIA video card, is responsible for the audio over the HDMI port. The Intel HDMI audio drivers from the GMA 950 drivers will install, but no devices show up. In order to get this working, I'd need to either completely rewrite or binary patch the Intel HDMI audio drivers to support the Apple TV, which would likely be extremely complicated. If someone wants to work on this, let me know.
-        </p>
-        <h3>NTVDM</h3>
-        <p>
-            NTVDM on Windows XP requires some legacy BIOS functions (likely the Extended BIOS data area and legacy VGA functions from the GPU) and therefore will not work. Just use DOSBox or <a href="https://github.com/otya128/winevdm/releases" target="_blank">WineVDM</a> (make sure to download the version for older Windows versions) to run DOS/early Windows applications. I haven't tested it on Windows 8/10 but it probably works fine since those OSes have official UEFI support.
-        </p>
-        <h3>Versions of Windows prior to 2000</h3>
-        <p>
-            NT versions prior to 2000 would require a custom HAL to make use of ACPI and the APIC timer, another custom video driver, and probably some other modifications too. Windows 9x will not work due to its reliance on BIOS functions.
-        </p>
         <hr>
         <a id="get-involved"><h2>Get Involved</h2></a>
         <p>
@@ -252,7 +239,7 @@
             <code>freeldr.sys</code> will be located in <code>output-MinGW-i386/boot/freeldr/freeldr</code>.
         </p>
         <p>
-            For <code>bootvid.dll</code>, run <code>ninja fbbvid</code>, then rename the generated <code>drivers/base/bootvid/fbbvid.dll</code> to <code>bootvid.dll</code>.
+            For <code>bootvid.dll</code>, run <code>ninja lfbbvid</code>, then rename the generated <code>drivers/base/bootvid/lfbbvid.dll</code> to <code>bootvid.dll</code>.
             <br />
             For <code>genfbvmp.sys</code>, run <code>ninja genfbvmp</code>.
         </p>
