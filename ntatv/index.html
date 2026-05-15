@@ -41,9 +41,6 @@
         </ol>
         <hr>
         <a id="status"><h2>Status</h2></a>
-        <p>
-            Do note that I have not done extensive testing on anything except XP. Hardware that works on XP is likely to work on Windows 2000/2003, but is not guaranteed to.
-        </p>
         <div id="wrapper">
             <div id="scroll">
                 <table>
@@ -77,12 +74,12 @@
                             <td>Working</td> <!-- USB -->
                             <td>Working</td> <!-- Basic Video -->
                             <td>Working</td> <!-- Accelerated Video (HDMI)-->
-                            <td>Untested</td> <!-- Accelerated Video (Component)-->
+                            <td>Working</td> <!-- Accelerated Video (Component)-->
                             <td>Working</td> <!-- Ethernet -->
                             <td>Working</td> <!-- WiFi -->
                             <td>Partially Working<sup>1</sup></td> <!-- RCA audio -->
                             <td>Working</td> <!-- Optical audio -->
-                            <td>Untested</td> <!-- HDMI audio -->
+                            <td>Broken</td> <!-- HDMI audio -->
                             <td>Broken</td> <!-- Remote -->
                             <td>Broken</td> <!-- Software Reboot -->
                         </tr>
@@ -161,7 +158,7 @@
                             <td>Working</td> <!-- USB -->
                             <td>Working</td> <!-- Basic Video -->
                             <td>Working</td> <!-- Accelerated Video (HDMI)-->
-                            <td>Untested</td> <!-- Accelerated Video (Component)-->
+                            <td>Broken<sup>6</sup></td> <!-- Accelerated Video (Component)-->
                             <td>Working</td> <!-- Ethernet -->
                             <td>Working</td> <!-- WiFi -->
                             <td>Partially Working<sup>1</sup></td> <!-- RCA audio -->
@@ -204,6 +201,7 @@
                 <li>Functionally useless on Apple TVs with 256MB RAM; an SSD is all but required as the kernel and basic drivers alone use about 192MB minimum. Usage requires <a href="/atv1sm" target="_blank">ATV1sm</a> and Windows must be installed on another machine/in a VM since the installer won't load on the TV.</li>
                 <li>Non-working PCI breaks nearly everything on ReactOS.</li>
                 <li>Early alpha driver available <a href="https://github.com/DistroHopper39B/NTATV_RemoteDrv" target="_blank">here</a> for Windows XP SP2 and later. This driver will not work on earlier versions due to limitations of the WinUSB library. This driver should work fine for LED control but its remote support is in early stages.</li>
+                <li>At least on my TV, Windows 10 sets the Component output to an invalid mode. This is definitely NVIDIA's fault and probably happens on other machines with similar driver versions.</li>
             </ol>
         </p>
         <h3>Additonal Notes</h3>
