@@ -35,7 +35,9 @@
         <p>Contents:</p>
         <ol>
             <li><a href="#status">Status</a></li>
+            <li><a href="#known-issues">Known Issues</a></li>
             <li><a href="#get-involved">Get Involved</a></li>
+            <li><a href="#compiling">Compiling NTATV</a></li>
             <li><a href="#changelog">Changelog</a></li>
             <li><a href="#acknowledgements">Acknowledgements</a></li>
         </ol>
@@ -204,27 +206,31 @@
                 <li>At least on my TV, Windows 10 sets the Component output to an invalid mode. This is definitely NVIDIA's fault and probably happens on other machines with similar driver versions.</li>
             </ol>
         </p>
-        <h3>Additonal Notes</h3>
+        <a id="known-issues"><h2>Known Issues</h2></a>
         <ul>
             <li>Some horribly made IDE to SATA adapters have issues with Windows XP, the Apple TV's firmware, FreeLoader (our custom bootloader), or all of the above. I'd recommend the white plastic cased IDE to mSATA adapters you can find on AliExpress/eBay/Amazon for under $10 under various sellers and brand names, I seem to have the best luck with those (though USB adapters sometimes have issues on those, so consider an mSATA to USB adapter for imaging)</li>
             <li>NTFS has issues on non-English Windows installs due to FreeLoader bugs. If you get errors like <code>Cannot open SYSTEM.ALT hive!</code>, reinstall on a FAT32 partition. You should be able to convert that partition to NTFS later on with no repercussions.</li>
             <li>RDP connections fail on custom-built images. If you use sysprep to wipe the system configuration, as I did on the prebuilt image, RDP connections work fine, but if you don't, RDP will instantly disconnect.</li>
             <li>HDMI audio will probably never work. The Apple TV uses an extremely weird configuration for HDMI audio in that the Intel chipset, not the NVIDIA video card, is responsible for the audio over the HDMI port. The Intel HDMI audio drivers from the GMA 950 drivers will install, but no devices show up. In order to get this working, I'd need to either completely rewrite or binary patch the Intel HDMI audio drivers to support the Apple TV, which would likely be extremely complicated. If someone wants to work on this please let me know, but for now audio via HDMI will not work.</li>
             <li>NTVDM on Windows XP requires some legacy BIOS functions (likely the Extended BIOS data area and legacy VESA functions) and therefore will not work. Just use DOSBox or <a href="https://github.com/otya128/winevdm/releases" target="_blank">WineVDM</a> (make sure to download the version for older Windows versions) to run DOS/early Windows applications. I haven't tested it on Windows 8/10 but it probably works fine since those OSes have official UEFI support.</li>
+            <li>Safe mode does not work due to the graphics driver used here. It is possible to fix this, but I haven't succeeded yet.</li>
+            <li>Using Windows' built in "Disk Cleanup" feature has been reported to break booting. I haven't tested it myself, but it is likely a result of missing or compressed files.</li>
         </ul>
         <hr>
         <a id="get-involved"><h2>Get Involved</h2></a>
         <p>
-            Contributions are welcome!
+            Contributions are welcome! I'm particularly interested in anyone who knows anything about Windows audio drivers, since sound has been a persistent problem with NTATV since its inception.
         <p>
             If you experience any issues with NTATV, please let me know through the <a href="https://github.com/DistroHopper39B/NTATV/issues">NTATV issue tracker</a>. Please refrain from reporting known issues like the ones above.
         </p>
+        <hr>
+        <a id="compiling"><h2>Compiling NTATV</h2></a>
             My custom version of <a href="https://reactos.org/wiki/FreeLoader" target="_blank">FreeLoader</a> from <a href="https://reactos.org/" target="_blank">ReactOS</a> is located in <a href="https://github.com/DistroHopper39B/reactos/tree/AppleTV-Desktop" target="_blank">this repository</a>. To compile it:
             <ul>
                 <li>Install <a href="https://reactos.org/wiki/Build_Environment" target="_blank">RosBE</a> (do not use the Ubuntu PPA)</li>
                 <li>Run RosBE (on Linux it's located in <code>/usr/local/RosBE/RosBE.sh</code>, on Windows it can be started from the Start menu)</li>
                 <ul>
-                    <li>You can also use MSVC, see <a href="https://reactos.org/wiki/Building_ReactOS" target="_blank">the ReactOS guide</a></li>
+                    <li>You can also use MSVC, see <a href="https://reactos.org/wiki/Building_ReactOS" target="_blank">the ReactOS guide</a>. Clang is untested but I don't see any reason why it shouldn't work.</li>
                 </ul>
                 <li>Clone my repository: <code>git clone https://github.com/DistroHopper39B/reactos -b AppleTV-Desktop</code></li>
                 <li><code>cd</code> to my repository</li>
