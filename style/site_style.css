@@ -1,5 +1,6 @@
 /* Source Code Pro */
-@font-face {
+@font-face
+{
     font-family: "Source Code Pro";
     src: 
         url("../fonts/ttf/SourceCodePro-Regular.ttf") format("truetype"),
@@ -7,7 +8,8 @@
 }
 
 /* Lato Regular */
-@font-face {
+@font-face
+{
     font-family: "Lato";
     font-style: normal;
     font-weight: normal;
@@ -17,7 +19,8 @@
 }
 
 /* Lato Bold */
-@font-face {
+@font-face
+{
     font-family: "Lato";
     font-style: normal;
     font-weight: bold;
@@ -26,7 +29,8 @@
         url("../fonts/woff2/Lato-Bold.woff2") format("woff2");
 }
 /* Lato Italic */
-@font-face {
+@font-face
+{
     font-family: "Lato";
     font-style: italic;
     font-weight: normal;
@@ -36,7 +40,8 @@
 }
 
 /* Lato Bold Italic */
-@font-face {
+@font-face
+{
     font-family: "Lato";
     font-style: italic;
     font-weight: bold;
@@ -45,28 +50,39 @@
         url("../fonts/woff2/Lato-BoldItalic.woff2") format("woff2");
 }
 
-html {
+html
+{
     background-color: white;
     color: black;
 }
 
-table, th, td {
+table, th, td
+{
     border: 1px solid black;
 }
 
-.unsupported {
+.unsupported
+{
     background-color: lightgrey;
 }
 
-a:link {
-    color: purple;
+a
+{
+    text-decoration: none;
 }
 
-a:visited {
-    color: violet;
+a:link
+{
+    color: blue;
 }
 
-@media (prefers-color-scheme: dark) {
+a:visited
+{
+    color: darkblue;
+}
+
+@media (prefers-color-scheme: dark)
+{
     html {
         background-color: #0F0F0F;
         color: #F5F5F5;
@@ -81,40 +97,46 @@ a:visited {
     }
 
     a:link {
-        color: violet;
+        color: lightblue;
     }
 
     a:visited {
-        color: rgb(158, 100, 220);
+        color: lightskyblue;
     }
 }
 
-html, body {
+html, body
+{
     font-family: "Lato", sans-serif;
     font-weight: normal;
     font-size: 16px;
 }
 
-h1, h2, h3, h4 {
+h1, h2, h3, h4
+{
     font-family: "Lato";
 }
 
-code, pre {
+code, pre
+{
     font-family: "Source Code Pro", monospace;
     overflow-wrap: break-word;
 }
 
-table, th, td {
+table, th, td
+{
     border-collapse: collapse;
     text-align: center;
     padding: 5px;
 }
 
-#wrapper {
+#wrapper
+{
     position: relative;
 }
 
-#scroll {
+#scroll
+{
     overflow: auto;
 }
 
